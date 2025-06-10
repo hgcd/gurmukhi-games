@@ -1,0 +1,327 @@
+/* Color variables */
+:root {
+    --light: #f7e0d7;
+    --dark: #211c1b;
+
+    --gray-light: #9c9c9c;
+    --gray-dark: #333333;
+
+    --red: #ab4f4f;
+    --red-light: #e1c2bc;
+    --red-dark: #6a352b;
+    --orange: #bc7d56;
+    --orange-light: #e1bf97;
+    --orange-dark: #713a1a;
+    --green: #4c704c;
+    --green-light: #b1c4a7;
+    --green-dark: #345034;
+    --blue: #206892;
+    --blue-light: #a4cee3;
+    --blue-dark: #1e3051;
+    --brown: #714d3a;
+    --brown-light: #cdb6a4;
+    --brown-dark: #422a23;
+
+    --success-light: #aeeeae;
+    --success-dark: #247224;
+    --failure-light: #f9bbbb;
+    --failure-dark: #7e2e2e;
+}
+
+.text-main-light {
+    color: var(--light);
+}
+.text-main-dark {
+    color: var(--dark);
+}
+
+.text-gray-light {
+    color: var(--gray-light);
+}
+.text-gray-dark {
+    color: var(--gray-dark);
+}
+
+.text-red {
+    color: var(--red);
+}
+.text-red-light {
+    color: var(--red-light);
+}
+.text-red-dark {
+    color: var(--red-dark);
+}
+
+.text-orange {
+    color: var(--orange);
+}
+.text-orange-light {
+    color: var(--orange-light);
+}
+.text-orange-dark {
+    color: var(--orange-dark);
+}
+
+.text-green {
+    color: var(--green);
+}
+.text-green-light {
+    color: var(--green-light);
+}
+.text-green-dark {
+    color: var(--green-dark);
+}
+
+.text-blue {
+    color: var(--blue);
+}
+.text-blue-light {
+    color: var(--blue-light);
+}
+.text-blue-dark {
+    color: var(--blue-dark);
+}
+
+.text-brown {
+    color: var(--brown);
+}
+.text-brown-light {
+    color: var(--brown-light);
+}
+.text-brown-dark {
+    color: var(--brown-dark);
+}
+
+.bg-main-light {
+    background-color: var(--light);
+    color: var(--dark);
+}
+.bg-main-dark {
+    background-color: var(--dark);
+    color: var(--light);
+}
+
+.bg-red {
+    background-color: var(--red);
+    color: var(--red-light);
+}
+.bg-red-light {
+    background-color: var(--red-light);
+    color: var(--red-dark);
+}
+.bg-red-dark {
+    background-color: var(--red-dark);
+    color: var(--red-light);
+}
+
+.bg-orange {
+    background-color: var(--orange);
+    color: var(--orange-dark);
+}
+.bg-orange-light {
+    background-color: var(--orange-light);
+    color: var(--orange-dark);
+}
+.bg-orange-dark {
+    background-color: var(--orange-dark);
+    color: var(--orange-light);
+}
+
+.bg-green {
+    background-color: var(--green);
+    color: var(--green-light);
+}
+.bg-green-light {
+    background-color: var(--green-light);
+    color: var(--green-dark);
+}
+.bg-green-dark {
+    background-color: var(--green-dark);
+    color: var(--green-light);
+}
+
+.bg-blue {
+    background-color: var(--blue);
+    color: var(--blue-light);
+}
+.bg-blue-light {
+    background-color: var(--blue-light);
+    color: var(--blue-dark);
+}
+.bg-blue-dark {
+    background-color: var(--blue-dark);
+    color: var(--blue-light);
+}
+
+.bg-brown {
+    background-color: var(--brown);
+    color: var(--brown-light);
+}
+.bg-brown-light {
+    background-color: var(--brown-light);
+    color: var(--brown-dark);
+}
+.bg-brown-dark {
+    background-color: var(--brown-dark);
+    color: var(--brown-light);
+}
+
+.bg-success-light {
+    background-color: var(--success-light);
+    color: var(--success-dark);
+}
+.bg-success-dark {
+    background-color: var(--success-dark);
+    color: var(--success-light);
+}
+
+.bg-failure-light {
+    background-color: var(--failure-light);
+    color: var(--failure-dark);
+}
+.bg-failure-dark {
+    background-color: var(--failure-dark);
+    color: var(--failure-light);
+}
+
+.text-success-light {
+    color: var(--success-light);
+}
+.text-success-dark {
+    color: var(--success-dark);
+}
+
+.text-failure-light {
+    color: var(--failure-light);
+}
+.text-failure-dark {
+    color: var(--failure-dark);
+}
+
+
+
+/***** Button Styles *****/
+
+.btn-press {
+    border: none;
+    border-radius: 0.2em;
+    padding: 0.4em 0.8em;
+    cursor: pointer;
+    transition: all 0.1s ease;
+    text-align: center;
+    display: inline-block;
+    box-shadow: inset 0px -4px rgb(0, 0, 0, 0.1);
+    transform: translateY(-1px);
+}
+
+.btn-press:active {
+    transform: translateY(2px);
+}
+
+.btn-press-flat {
+    border: none;
+    border-radius: 0.2em;
+    padding: 0.4em 0.8em;
+    cursor: pointer;
+    transition: all 0.1s ease;
+    text-align: center;
+    display: inline-block;
+    transform: translateY(-1px);
+}
+
+.btn-press-flat:active {
+    transform: translateY(2px);
+}
+
+.btn-press-blank {
+    border: none;
+    border-radius: 0.2em;
+    background-color: #00000000;
+    padding: 0.4em 0.8em;
+    cursor: pointer;
+    transition: all 0.1s ease;
+    text-align: center;
+    display: inline-block;
+    transform: translateY(-1px);
+}
+
+.btn-press-blank:active {
+    transform: translateY(2px);
+}
+
+.btn-placeholder {
+    border-radius: 0.2em;
+    background-color: #00000000;
+    padding: 0.4em 0.8em;
+    cursor: default;
+    border: 2px dashed var(--dark);
+    display: inline-block;
+}
+
+/***** Animation Styles *****/
+
+.bounce-animation {
+    animation: bounce 0.5s cubic-bezier(.36,.07,.19,.97) both;
+    transform: translate3d(0, 0, 0);
+    backface-visibility: hidden;
+    perspective: 1000px;
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+    }
+    40% {
+        transform: translateY(-30px);
+    }
+    60% {
+        transform: translateY(-15px);
+    }
+    80% {
+        transform: translateY(-5px);
+    }
+}
+
+.dip-animation {
+    animation: dip 0.5s cubic-bezier(.36,.07,.19,.97) both;
+    transform: translate3d(0, 0, 0);
+    backface-visibility: hidden;
+    perspective: 1000px;
+}
+
+@keyframes dip {
+    0% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(10px);
+    }
+    100% {
+        transform: translateY(0);
+    }
+}
+
+.shake-animation {
+    animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+    transform: translate3d(0, 0, 0);
+    backface-visibility: hidden;
+    perspective: 1000px;
+}
+
+@keyframes shake {
+    10%, 90% {
+        transform: translate3d(-1px, 0, 0);
+    }
+    
+    20%, 80% {
+        transform: translate3d(2px, 0, 0);
+    }
+
+    30%, 50%, 70% {
+        transform: translate3d(-4px, 0, 0);
+    }
+
+    40%, 60% {
+        transform: translate3d(4px, 0, 0);
+    }
+}
