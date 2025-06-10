@@ -14,6 +14,45 @@ app.secret_key = os.urandom(24)  # Required for session management
 # Get the MongoDB database instance
 db = MongoDBConnection.get_db()
 
+global GAME_DETAILS
+GAME_DETAILS = [
+    {
+        "game_id": "akhar-recognition",
+        "name": "Akhar Recognition",
+        "description": "Practice identifying Gurmukhi letters by sound",
+        "color_class": "bg-red-light",
+        "icon": "🎯"
+    },
+    {
+        "game_id": "akhar-line-order",
+        "name": "Akhar Line Order",
+        "description": "Put the akhar in the correct order",
+        "color_class": "bg-blue-light",
+        "icon": "🔤"
+    },
+    {
+        "game_id": "audio-spelling",
+        "name": "Audio Spelling",
+        "description": "Practice spelling Gurmukhi letters by listening to their audio pronunciation",
+        "color_class": "bg-red-light",
+        "icon": "🎧"
+    },
+    {
+        "game_id": "color-memory",
+        "name": "Color Memory",
+        "description": "Match colors with their Gurmukhi names",
+        "color_class": "bg-orange-light",
+        "icon": "🎨"
+    },
+    {
+        "game_id": "akhar-elimination-grid",
+        "name": "Akhar Elimination Grid",
+        "description": "Practice identifying and eliminating Gurmukhi letters",
+        "color_class": "bg-green-light",
+        "icon": "🔍"
+    }
+]
+
 # Get all users
 def get_users_dict():
     users = db.users.find({}, {"_id": 0, "user_id": 1, "type": 1, "points": 1})
@@ -72,11 +111,21 @@ def index():
     leaderboard.sort(key=lambda x: x['points'], reverse=True)
     leaderboard = leaderboard[:5]
 
-    return render_template('index.html', leaderboard=leaderboard)
+    # Get all game details
+    game_details = [
+        game for game in GAME_DETAILS
+        if game['game_id'] in ["akhar-recognition", "akhar-line-order"]
+    ]
+    return render_template('index.html', leaderboard=leaderboard, game_details=game_details)
 
 @app.route('/activities/audio-spelling')
 def audio_spelling():
     return render_template('activities/audio_spelling.html')
+
+@app.route('/games')
+@login_required
+def games():
+    return render_template('games.html', game_details=GAME_DETAILS)
 
 @app.route('/analytics')
 @login_required

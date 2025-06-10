@@ -59,7 +59,10 @@
                 {% if user_id %}
                 <div class="d-flex align-items-center">
                     {% if user_type == "teacher" %}
-                        <a href="{{ url_for('analytics') }}" class="btn-press-blank text-orange-dark text-decoration-none mx-2">
+                        <a href="{{ url_for('games') }}" class="btn-press-blank text-orange-dark text-decoration-none">
+                            <span class="me-3">ਖੇਡਾਂ <i class="bi bi-controller"></i></span>
+                        </a>
+                        <a href="{{ url_for('analytics') }}" class="btn-press-blank text-orange-dark text-decoration-none">
                             <span class="me-3">ਨਿਖੇੜਾ <i class="bi bi-graph-up-arrow"></i></span>
                         </a>
                     {% endif %}

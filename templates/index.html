@@ -37,69 +37,19 @@
 
     <!-- Game Cards -->
     <div class="row">
-        <div class="col-md-4 mb-4">
-            <a href="activities/akhar-recognition" class="text-decoration-none">
-                <div class="card h-100 bg-red-light">
-                    <div class="card-body text-center">
-                        <h1 class="display-4">🎯</h1>
-                        <h2 class="card-title">Akhar Recognition</h2>
-                        <p class="card-text">Practice identifying Gurmukhi letters by sound</p>
+        {% for game in game_details %}
+            <div class="col-md-4 mb-4">
+                <a href="activities/{{ game.game_id }}" class="text-decoration-none">
+                    <div class="card h-100 {{ game.color_class }}">
+                        <div class="card-body text-center">
+                            <h1 class="display-4">{{ game.icon }}</h1>
+                            <h2 class="card-title">{{ game.name }}</h2>
+                            <p class="card-text">{{ game.description }}</p>
+                        </div>
                     </div>
-                </div>
-            </a>
-        </div>
-
-        <div class="col-md-4 mb-4">
-            <a href="activities/akhar-line-order" class="text-decoration-none">
-                <div class="card h-100 bg-blue-light">
-                    <div class="card-body text-center">
-                        <h1 class="display-4">🔤</h1>
-                        <h2 class="card-title">Akhar Line Order</h2>
-                        <p class="card-text">Put the akhar in the correct order</p>
-                    </div>
-                </div>
-            </a>
-        </div>
-
-        <!--
-        <div class="col-md-4 mb-4">
-            <a href="activities/audio-spelling" class="text-decoration-none">
-                <div class="card h-100 bg-blue-light">
-                    <div class="card-body text-center">
-                        <h1 class="display-4">🔤</h1>
-                        <h2 class="card-title">Audio Spelling</h2>
-                        <p class="card-text">Learn to spell Gurmukhi words by sound</p>
-                    </div>
-                </div>
-            </a>
-        </div>
-
-        <div class="col-md-4 mb-4">
-            <a href="activities/color-memory" class="text-decoration-none">
-                <div class="card h-100 bg-orange-light">
-                    <div class="card-body text-center">
-                        <h1 class="display-4">🎨</h1>
-                        <h2 class="card-title">Color Memory</h2>
-                        <p class="card-text">Match colors with their Gurmukhi names</p>
-                    </div>
-                </div>
-            </a>
-        </div>
-        
-
-        <div class="col-md-4 mb-4">
-            <a href="activities/akhar-elimination-grid" class="text-decoration-none">
-                <div class="card h-100 bg-green-light">
-                    <div class="card-body text-center">
-                        <h1 class="display-4">🔍</h1>
-                        <h2 class="card-title">Akhar Elimination Grid</h2>
-                        <p class="card-text">Practice identifying and eliminating Gurmukhi letters</p>
-                    </div>
-                </div>
-            </a>
-        </div>
-
-        -->
+                </a>
+            </div>
+        {% endfor %}
     </div>
 </div>
 {% endblock %}
