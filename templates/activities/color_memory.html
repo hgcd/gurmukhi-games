@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% block title %}Color Memory Game{% endblock %}
+
+{% block content %}
+    <!-- Start View -->
+    <div id="start-view" class="container-fluid bg-main-light rounded-3 p-4 text-center">
+        <h2>Color Memory Game</h2>
+        <br/>
+        <p>Memorize the sequence of colors and remake the sequence</p>
+        <br/>
+        <button id="start-button" class="btn-press bg-blue-dark" onclick="initGame()">
+            <h2>Start</h2>
+        </button>
+    </div>
+
+    <!-- Game View -->
+    <div id="game-view" class="container-fluid bg-main-light rounded-3 p-4 d-none">
+        <!-- Header -->
+        <div class="row">
+            <div class="col-1">
+                <h4><span id="round-number" class="text-blue-dark">1</span>/<span id="max-rounds" class="text-blue-dark">10</span></h4>
+            </div>
+            <div class="col-10">
+                <!-- Progress bar -->
+                <div class="progress mt-2 bg-dark" role="progressbar" aria-label="" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+                    <div id="progress-bar" class="progress-bar bg-info" style="width: 0%"></div>
+                </div>
+            </div>
+            <div class="col-1 text-end">
+                <h4>💎 <span id="score" class="text-blue-dark">0</span></h4>
+            </div>
+        </div>
+
+        <!-- Sequence Display -->
+        <div id="sequence-display" class="text-center my-4">
+            <div id="color-sequence" class="d-flex justify-content-center gap-3">
+                <!-- Color squares will be inserted here -->
+            </div>
+        </div>
+
+        <br/>
+
+        <!-- Color Selection -->
+        <div id="color-selection" class="d-none">
+            <!-- Selected Sequence Display -->
+            <div class="text-center my-4">
+                <div class="d-flex justify-content-center align-items-center gap-3">
+                    <div id="selected-sequence" class="d-flex justify-content-center gap-3">
+                        <!-- Selected colors will be displayed here -->
+                    </div>
+                    <button id="backspace-button" class="btn-press bg-failure-light p-3 m-1 border" onclick="removeLastColor()">
+                        <h2><i class="bi bi-backspace-fill"></i></h2>
+                    </button>
+                </div>
+            </div>
+
+            <div id="color-options" class="d-flex flex-wrap justify-content-center gap-3">
+                <!-- Color options will be inserted here -->
+            </div>
+
+            <div class="text-center mt-4">
+                <button id="submit-button" class="btn-press bg-blue-dark" onclick="checkAnswer()">
+                    <h1>Check</h1>
+                </button>
+                <button id="next-button" class="btn-press bg-blue-dark d-none" onclick="nextRound()">
+                    <h1>Next Round</h1>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- End View -->
+    <div id="end-view" class="container-fluid bg-main-light rounded-3 p-4 d-none text-center">
+        <h1>Game Over!</h1>
+        <h2>💎 <span id="final-score">0</span></h2>
+        <button class="btn-press bg-blue-dark" onclick="initGame()">
+            <h1>Play Again</h1>
+        </button>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/animations.js') }}"></script>
+<script src="{{ url_for('static', filename='js/activities/color_memory.js') }}"></script>
+{% endblock %}

@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gurmukhi Letter Tracing Game</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            /*background: linear-gradient(135deg, #203b63 0%, #122340 100%);*/
+            font-family: 'Quicksand', sans-serif;
+        }
+        .game-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            /*box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);*/
+        }
+        h1 {
+            color: #2c3e50;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            font-size: 2rem;
+            margin-bottom: 30px !important;
+            font-family: 'Fredoka One', cursive;
+            letter-spacing: 1px;
+        }
+        canvas {
+            border: 4px solid #3498db;
+            background-color: #ffffff;
+            touch-action: none;
+            width: 100%;
+            max-width: 600px;
+            height: auto;
+            aspect-ratio: 1;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        .progress-container {
+            width: 100%;
+            max-width: 600px;
+            margin: 20px auto;
+        }
+        .progress {
+            height: 25px;
+            background-color: #000000;
+            border: 3px solid #22506d;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        .progress-bar {
+            transition: width 1s linear, background-color 1s linear;
+            border-radius: 8px;
+        }
+        .canvas-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 20px 0;
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin: 20px auto;
+        }
+        .button-container {
+            display: flex;
+            gap: 15px;
+            width: 100%;
+            max-width: 600px;
+            margin: 20px auto;
+        }
+        .button-container button {
+            width: 50%;
+            padding: 12px;
+            font-size: 1rem;
+            font-weight: 700;
+            border-radius: 12px;
+            border: none;
+            transition: transform 0.2s, box-shadow 0.2s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-family: 'Quicksand', sans-serif;
+        }
+        .button-container button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+            box-shadow: 0 4px 0 #1a5276;
+        }
+        .btn-success {
+            background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
+            box-shadow: 0 4px 0 #1e8449;
+        }
+        .score-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(255, 255, 255, 0.95);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transform: scale(0.8);
+            transition: all 0.3s ease-out;
+            pointer-events: none;
+            border-radius: 15px;
+        }
+        .score-overlay.show {
+            opacity: 1;
+            transform: scale(1);
+            pointer-events: auto;
+        }
+        .score-display {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            font-family: 'Fredoka One', cursive;
+        }
+        @keyframes scorePulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+        .score-number {
+            display: inline-block;
+            animation: scorePulse 1s ease-in-out;
+            color: #3498db;
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container" style="height: 100vh;">
+        <h4 class="text-center mb-4">Gurmukhi Letter Tracing Game</h4>
+        
+        <div class="progress-container">
+            <div class="progress">
+                <div id="timerBar" class="progress-bar" role="progressbar" style="width: 100%; background-color: #28a745;"></div>
+            </div>
+        </div>
+
+        <div class="button-container">
+            <button id="startButton" class="btn btn-primary">Start Game</button>
+            <button id="completeButton" class="btn btn-success" disabled>Complete</button>
+        </div>
+
+        <div class="canvas-container">
+            <canvas id="tracingCanvas" width="600" height="600"></canvas>
+            <div class="score-overlay" id="scoreOverlay">
+                <div class="score-display">
+                    Score: <span class="score-number" id="finalScore">0</span>%
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const GURMUKHI_LETTERS = [
+            'ੳ', 'ਅ', 'ੲ', 'ਸ', 'ਹ', 'ਕ', 'ਖ', 'ਗ', 'ਘ', 'ਙ',
+            'ਚ', 'ਛ', 'ਜ', 'ਝ', 'ਞ', 'ਟ', 'ਠ', 'ਡ', 'ਢ', 'ਣ',
+            'ਤ', 'ਥ', 'ਦ', 'ਧ', 'ਨ', 'ਪ', 'ਫ', 'ਬ', 'ਭ', 'ਮ',
+            'ਯ', 'ਰ', 'ਲ', 'ਵ', 'ੜ'
+        ];
+
+        let canvas, ctx;
+        let isDrawing = false;
+        let lastX = 0;
+        let lastY = 0;
+        let letters = [];
+        let timer;
+        let timeLeft = 30;
+        let gameActive = false;
+        let letterPositions = [];
+        let tracedPixels = new Set(); // Track traced pixels
+        let letterRegions = []; // Store letter region data
+
+        function init() {
+            canvas = document.getElementById('tracingCanvas');
+            ctx = canvas.getContext('2d');
+            setupEventListeners();
+        }
+
+        function setupEventListeners() {
+            canvas.addEventListener('mousedown', startDrawing);
+            canvas.addEventListener('mousemove', draw);
+            canvas.addEventListener('mouseup', stopDrawing);
+            canvas.addEventListener('mouseout', stopDrawing);
+            
+            canvas.addEventListener('touchstart', handleTouch);
+            canvas.addEventListener('touchmove', handleTouch);
+            canvas.addEventListener('touchend', stopDrawing);
+
+            document.getElementById('startButton').addEventListener('click', startGame);
+            document.getElementById('completeButton').addEventListener('click', endGame);
+        }
+
+        function handleTouch(e) {
+            e.preventDefault();
+            if (!e.touches || e.touches.length === 0) return;
+            
+            const touch = e.touches[0];
+            const rect = canvas.getBoundingClientRect();
+            
+            // Calculate the correct coordinates relative to the canvas
+            const scaleX = canvas.width / rect.width;
+            const scaleY = canvas.height / rect.height;
+            
+            const x = (touch.clientX - rect.left) * scaleX;
+            const y = (touch.clientY - rect.top) * scaleY;
+            
+            if (e.type === 'touchstart') {
+                startDrawing({ offsetX: x, offsetY: y });
+            } else if (e.type === 'touchmove') {
+                draw({ offsetX: x, offsetY: y });
+            }
+        }
+
+        function startDrawing(e) {
+            if (!e || e.offsetX === undefined || e.offsetY === undefined) return;
+            
+            isDrawing = true;
+            lastX = e.offsetX;
+            lastY = e.offsetY;
+        }
+
+        function draw(e) {
+            if (!isDrawing || !e || e.offsetX === undefined || e.offsetY === undefined) return;
+            
+            const currentX = e.offsetX;
+            const currentY = e.offsetY;
+            
+            // Skip if points are too close together
+            if (Math.abs(currentX - lastX) < 1 && Math.abs(currentY - lastY) < 1) return;
+            
+            ctx.beginPath();
+            ctx.moveTo(lastX, lastY);
+            ctx.lineTo(currentX, currentY);
+            ctx.strokeStyle = '#000000';
+            ctx.lineWidth = 10;
+            ctx.lineCap = 'round';
+            ctx.stroke();
+            
+            // Store traced pixels
+            const points = getPointsOnLine(lastX, lastY, currentX, currentY);
+            points.forEach(point => {
+                tracedPixels.add(`${point.x},${point.y}`);
+            });
+            
+            [lastX, lastY] = [currentX, currentY];
+        }
+
+        function getPointsOnLine(x0, y0, x1, y1) {
+            const points = [];
+            const dx = Math.abs(x1 - x0);
+            const dy = Math.abs(y1 - y0);
+            const sx = (x0 < x1) ? 1 : -1;
+            const sy = (y0 < y1) ? 1 : -1;
+            let err = dx - dy;
+            let iterations = 0;
+            const maxIterations = 1000; // Safety limit
+
+            while (iterations < maxIterations) {
+                points.push({ x: Math.floor(x0), y: Math.floor(y0) });
+                if (x0 === x1 && y0 === y1) break;
+                const e2 = 2 * err;
+                if (e2 > -dy) { err -= dy; x0 += sx; }
+                if (e2 < dx) { err += dx; y0 += sy; }
+                iterations++;
+            }
+            return points;
+        }
+
+        function stopDrawing() {
+            isDrawing = false;
+        }
+
+        function drawLetters() {
+            const gridSize = 3;
+            const cellSize = canvas.width / gridSize;
+            const fontSize = cellSize * 0.6;
+            
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.font = `${fontSize}px Noto Sans Gurmukhi`;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillStyle = '#add8e6'; // Light blue
+            
+            letterPositions = [];
+            letterRegions = []; // Reset letter regions
+            
+            for (let i = 0; i < letters.length; i++) {
+                const row = Math.floor(i / gridSize);
+                const col = i % gridSize;
+                const x = col * cellSize + cellSize / 2;
+                const y = row * cellSize + cellSize / 2;
+                
+                letterPositions.push({ x, y, letter: letters[i] });
+                
+                // Create letter region
+                const region = {
+                    x: x - fontSize/2,
+                    y: y - fontSize/2,
+                    width: fontSize,
+                    height: fontSize,
+                    letter: letters[i]
+                };
+                letterRegions.push(region);
+                
+                ctx.fillText(letters[i], x, y);
+            }
+        }
+
+        function calculateScore() {
+            let letterPixels = new Set();
+            let nonLetterPixels = new Set();
+            
+            // Create a temporary canvas to get letter pixels
+            const tempCanvas = document.createElement('canvas');
+            tempCanvas.width = canvas.width;
+            tempCanvas.height = canvas.height;
+            const tempCtx = tempCanvas.getContext('2d');
+            
+            // Draw letters on temp canvas
+            tempCtx.font = `${canvas.width/5}px Noto Sans Gurmukhi`;
+            tempCtx.textAlign = 'center';
+            tempCtx.textBaseline = 'middle';
+            tempCtx.fillStyle = '#000000';
+            
+            letterRegions.forEach(region => {
+                tempCtx.fillText(region.letter, region.x + region.width/2, region.y + region.height/2);
+            });
+            
+            // Get letter and non-letter pixels
+            const imageData = tempCtx.getImageData(0, 0, canvas.width, canvas.height);
+            for (let y = 0; y < canvas.height; y++) {
+                for (let x = 0; x < canvas.width; x++) {
+                    const i = (y * canvas.width + x) * 4;
+                    if (imageData.data[i + 3] > 0) { // If pixel is not transparent
+                        letterPixels.add(`${x},${y}`);
+                    } else {
+                        nonLetterPixels.add(`${x},${y}`);
+                    }
+                }
+            }
+            
+            // Calculate overlaps
+            let letterOverlap = 0;
+            let nonLetterOverlap = 0;
+            
+            tracedPixels.forEach(pixel => {
+                if (letterPixels.has(pixel)) {
+                    letterOverlap++;
+                } else if (nonLetterPixels.has(pixel)) {
+                    nonLetterOverlap++;
+                }
+            });
+            
+            const letterOverlapPercent = (letterOverlap / letterPixels.size) * 100;
+            const nonLetterOverlapPercent = ((nonLetterOverlap - letterOverlap) / nonLetterPixels.size) * 100;
+
+            // Final score needs to be scaled by the number of pixels on the canvas
+            const finalScore = Math.round(letterOverlapPercent);
+
+            console.log("Letter Overlap: ", letterOverlap, "/", letterPixels.size, "=", letterOverlapPercent);
+            console.log("Non Letter Overlap: ", nonLetterOverlap, "/", nonLetterPixels.size, "=", nonLetterOverlapPercent);
+            console.log("Final Score: ", finalScore);
+
+            return finalScore;
+        }
+
+        function startGame() {
+            gameActive = true;
+            timeLeft = 30;
+            document.getElementById('startButton').disabled = true;
+            document.getElementById('startButton').textContent = 'Start Game';
+            document.getElementById('completeButton').disabled = false;
+            document.getElementById('scoreOverlay').classList.remove('show');
+            
+            // Reset traced pixels
+            tracedPixels.clear();
+            
+            // Generate random letters
+            letters = [];
+            for (let i = 0; i < 9; i++) {
+                const randomLetter = GURMUKHI_LETTERS[Math.floor(Math.random() * GURMUKHI_LETTERS.length)];
+                letters.push(randomLetter);
+            }
+            
+            drawLetters();
+            
+            // Start timer
+            timer = setInterval(updateTimer, 1000);
+        }
+
+        function updateTimer() {
+            timeLeft--;
+            const progress = (timeLeft / 30) * 100;
+            const timerBar = document.getElementById('timerBar');
+            timerBar.style.width = `${progress}%`;
+            
+            // Update color based on time left
+            if (timeLeft > 20) {
+                timerBar.style.backgroundColor = '#28a745'; // Green
+            } else if (timeLeft > 10) {
+                // Transition from green to yellow
+                const yellowProgress = (timeLeft - 10) / 10;
+                const red = Math.floor(40 + (215 * (1 - yellowProgress)));
+                const green = Math.floor(167 + (88 * (1 - yellowProgress)));
+                timerBar.style.backgroundColor = `rgb(${red}, ${green}, 0)`;
+            } else {
+                // Transition from yellow to red
+                const redProgress = timeLeft / 10;
+                const red = 255;
+                const green = Math.floor(255 - (255 * (1 - redProgress)));
+                timerBar.style.backgroundColor = `rgb(${red}, ${green}, 0)`;
+            }
+            
+            if (timeLeft <= 0) {
+                endGame();
+            }
+        }
+
+        function endGame() {
+            gameActive = false;
+            clearInterval(timer);
+            document.getElementById('startButton').disabled = false;
+            document.getElementById('startButton').textContent = 'Play Again';
+            document.getElementById('completeButton').disabled = true;
+            
+            // Calculate final score based on tracing accuracy
+            const score = calculateScore();
+            document.getElementById('finalScore').textContent = score;
+            
+            // Show score overlay
+            document.getElementById('scoreOverlay').classList.add('show');
+            
+            // Reset traced pixels for next game
+            tracedPixels.clear();
+        }
+
+        // Initialize the game when the page loads
+        window.addEventListener('load', init);
+    </script>
+</body>
+</html> 

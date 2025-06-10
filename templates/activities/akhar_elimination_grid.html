@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block title %}Akhar Elimination Grid{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <!-- Start View -->
+    <div id="start-view" class="text-center bg-main-light rounded-3 p-4">
+        <h1 class="mb-4">Akhar Elimination Grid</h1>
+
+        <p class="text-muted">Find the akhar you hear in the grid</p>
+
+        <button class="btn-press bg-blue-dark" onclick="initGame()">
+            <h2 class="">ਖੇਡਾਂ &rarr;</h2>
+        </button>
+    </div>
+
+    <!-- Game View -->
+    <div id="game-view" class="d-none">
+        <!-- Score Display -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="p-3 rounded text-center">
+                    <h3>Found: <span id="score">0</span> / <span id="total-akhar">25</span></h3>
+                </div>
+            </div>
+        </div>
+
+        <!-- Audio Playback Section -->
+        <div id="audio-section" class="text-center mb-4">
+            <button class="btn-press bg-blue-light" onclick="playCurrentAudio()">
+                <h2><i class="bi bi-volume-up-fill"></i> Play Audio</h2>
+            </button>
+        </div>
+
+        <!-- Grid Section -->
+        <div id="grid-section" class="text-center">
+            <div class="table-responsive">
+                <table class="table table borderless">
+                    <tbody id="akhar-grid">
+                        <!-- Grid will be populated by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- End View -->
+    <div id="end-view" class="text-center d-none bg-main-light rounded-3 p-4">
+        <h1 class="mb-4">ਬਹੁਤ ਵਧੀਆ!</h1>
+        <br/>
+        <h2 class="text-blue">💎 +<span id="final-score">0</span></h2>
+        <br/>
+        <h5>You found <span id="final-score">0</span> out of 25 letters!</h5>
+        <br/>
+        <button class="btn-press bg-blue-dark" onclick="initGame()">
+            <h2>ਫੇਰ ਖੇਡਾਂ</h2>
+        </button>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+    <script src="{{ url_for('static', filename='js/gurmukhi_utils.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/animations.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/activities/akhar_elimination_grid.js') }}"></script>
+{% endblock %}

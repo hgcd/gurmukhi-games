@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+
+{% block title %}Gurmukhi Games{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <!-- Leaderboard -->
+     {% if leaderboard %}
+     <div class="d-flex justify-content-center">
+        <div style="width: 100%;max-width: 500px;">
+            <h2 class="text-center"><i class="bi bi-trophy-fill"></i> ਲੀਡਰਬੋਰਡ</h2>
+            <hr/>
+            {% for user in leaderboard %}
+                <div class="row h4">
+                    <div class="col-8 text-white">
+                        {% if loop.index0 == 0 %}
+                            <i class="bi bi-star-fill" style="color: gold;"></i>
+                        {% endif %}
+                        {% if loop.index0 == 1 %}
+                            <i class="bi bi-star-fill" style="color: silver;"></i>
+                        {% endif %}
+                        {% if loop.index0 == 2 %}
+                            <i class="bi bi-star-fill" style="color: #cd7f32;"></i>
+                        {% endif %}
+                        {{ user.id }}
+                    </div>
+                    <div class="col-4 text-end">💎 {{ user.points }}</div>
+                </div>
+                <hr/>
+            {% endfor %}
+            </div>
+        </div>
+     </div>
+     {% endif %}
+
+     <br/><br/>
+
+    <!-- Game Cards -->
+    <div class="row">
+        <div class="col-md-4 mb-4">
+            <a href="activities/akhar-recognition" class="text-decoration-none">
+                <div class="card h-100 bg-red-light">
+                    <div class="card-body text-center">
+                        <h1 class="display-4">🎯</h1>
+                        <h2 class="card-title">Akhar Recognition</h2>
+                        <p class="card-text">Practice identifying Gurmukhi letters by sound</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-md-4 mb-4">
+            <a href="activities/akhar-line-order" class="text-decoration-none">
+                <div class="card h-100 bg-blue-light">
+                    <div class="card-body text-center">
+                        <h1 class="display-4">🔤</h1>
+                        <h2 class="card-title">Akhar Line Order</h2>
+                        <p class="card-text">Put the akhar in the correct order</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <!--
+        <div class="col-md-4 mb-4">
+            <a href="activities/audio-spelling" class="text-decoration-none">
+                <div class="card h-100 bg-blue-light">
+                    <div class="card-body text-center">
+                        <h1 class="display-4">🔤</h1>
+                        <h2 class="card-title">Audio Spelling</h2>
+                        <p class="card-text">Learn to spell Gurmukhi words by sound</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-md-4 mb-4">
+            <a href="activities/color-memory" class="text-decoration-none">
+                <div class="card h-100 bg-orange-light">
+                    <div class="card-body text-center">
+                        <h1 class="display-4">🎨</h1>
+                        <h2 class="card-title">Color Memory</h2>
+                        <p class="card-text">Match colors with their Gurmukhi names</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+        
+
+        <div class="col-md-4 mb-4">
+            <a href="activities/akhar-elimination-grid" class="text-decoration-none">
+                <div class="card h-100 bg-green-light">
+                    <div class="card-body text-center">
+                        <h1 class="display-4">🔍</h1>
+                        <h2 class="card-title">Akhar Elimination Grid</h2>
+                        <p class="card-text">Practice identifying and eliminating Gurmukhi letters</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        -->
+    </div>
+</div>
+{% endblock %}

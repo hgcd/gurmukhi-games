@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+
+{% block title %}Audio Spelling Game{% endblock %}
+
+{% block content %}
+<div>
+    <!-- Start View -->
+    <div id="start-view" class="container-fluid bg-main-light rounded-3 p-4 text-center">
+        <h2>Audio Spelling</h2>
+        <br/>
+        <h5 class="text-muted">Spell the word you hear</h5>
+        <br/>
+        <button id="start-button" class="btn-press bg-red-dark m-1" onclick="setWordData('mukta');initGame();">
+            <h3>Mukta words</h3>
+        </button>
+        <button id="start-button" class="btn-press bg-blue-dark m-1" onclick="setWordData('common');initGame()">
+            <h3>Common words</h3>
+        </button>
+    </div>
+
+    <!-- Game View -->
+    <div id="game-view" class="container-fluid bg-main-light rounded-3 p-4 d-none">
+        <!-- Header -->
+        <div class="row">
+            <div class="col-2">
+                <h4 id="progress-text"></h4>
+            </div>
+            <div class="col-8">
+                <!-- Progress bar -->
+                <div class="progress mt-2 bg-dark" role="progressbar" aria-label="" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+                    <div id="progress-bar" class="progress-bar bg-info" style="width: 0%"></div>
+                </div>
+            </div>
+            <div class="col-2 text-end">
+                <h4>💎 <span id="score" class="text-blue-dark">0</span></h4>
+            </div>
+        </div>
+
+        <br/>
+
+        <!-- Audio Button -->
+        <div class="text-center">
+            <button id="audio-button" class="btn-press bg-blue-dark">
+                <h1><i class="bi bi-volume-up-fill"></i></h1>
+            </button>
+        </div>
+        <br/>
+        <h5 id="english-word" class="text-muted text-center"></h5>
+        <br/>
+
+        <!-- Guessed Word -->
+        <div class="rounded-3 p-3 bg-white rounded-3" style="min-height: 4em;">
+            <h1 id="guessed-word" class="text-center gurmukhi-braah-one"></h1>
+        </div>
+        <br/>
+
+        <div id="akhar-bank" class="d-flex flex-wrap justify-content-center">
+            <!-- Akhar Bank -->
+        </div>
+        <br/>
+        <div id="option-buttons" class="d-flex flex-wrap justify-content-center">
+            <!-- Option Buttons -->
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div aria-live="polite" aria-atomic="true" class="d-flex justify-content-center align-items-center bg-none" style="min-height: 200px;">
+        <div class="toast-container position-fixed top-0 start-50 translate-middle-x p-3 text-center bg-none">
+            <div id="liveToast" class="toast text-light bg-none" role="alert" aria-live="assertive" aria-atomic="true" data-bs-autohide="true" data-bs-delay="3000">
+                <h6 id="toast-text" class="toast-body"></h6>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block modal_content %}
+    <div class="text-center game-text">
+        <h1>Game Over</h1>
+        <br/>
+        <h2>💎 <span id="final-score" class="text-blue-dark">0</span></h2>
+        <h3>Mistakes: <span id="mistakes" class="text-failure-dark">0</span></h3>
+        <br/>
+        <button id="end-button" class="btn-press bg-blue-dark" onclick="replayGame()">
+            <h1>Replay</h1>
+        </button>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script src="{{ url_for('static', filename='js/data.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/game_utils.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/gurmukhi_utils.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/animations.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/activities/audio_spelling.js') }}"></script>
+    <script>
+        function showToast(text) {
+            const toastLive = document.getElementById('liveToast');
+            const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLive);
+            document.getElementById('toast-text').innerHTML = text;
+            toastBootstrap.show();
+        }
+    </script>
+{% endblock %}

@@ -1,0 +1,129 @@
+{% extends "base.html" %}
+
+{% block title %}Analytics{% endblock %}
+
+{% block content %}
+<div class="w-100 bg-main-light rounded-3 p-4" style="min-width: 70em;">
+    <h1 class="text-center">ਗੁਰਮੁਖੀ ਖੇਡਾਂ ਨਿਖੇੜਾ</h1>
+    <br/>
+
+    <div class="p-4 m-2 d-flex flex-row justify-content-center">
+        <!-- Filter options -->
+        <div class="input-group mx-2 border border-dark border-2 rounded-3">
+            <span class="input-group-text" id="basic-addon1">ਖੇਡ</span>
+            <select id="game-filter-select" class="form-select">
+                <option value="all">All</option>
+            </select>
+        </div>
+        <div class="input-group mx-2 border border-dark border-2 rounded-3">
+            <span class="input-group-text" id="basic-addon1">ਖੇਡ ਸ਼੍ਰੇਣੀ</span>
+            <select id="category-filter-select" class="form-select">
+                <option value="all">All</option>
+            </select>
+        </div>
+        <div class="input-group mx-2 border border-dark border-2 rounded-3">
+            <span class="input-group-text" id="basic-addon1">ਵਿਧਿਆਰਥੀ</span>
+            <select id="student-filter-select" class="form-select">
+                <option value="all">All</option>
+            </select>
+        </div>
+        <div class="input-group mx-2 border border-dark border-2 rounded-3">
+            <span class="input-group-text" id="basic-addon1">ਤਰੀਖ</span>
+            <select id="date-filter-select" class="form-select">
+                <option value="all">All</option>
+                <option value="last_month">Last month</option>
+                <option value="last_week">Last week</option>
+                <option value="today">Today</option>
+            </select>
+        </div>
+        <button class="btn-press-flat bg-blue mx-2" style="min-width: 10em;" onclick="updateAnalytics()">
+            <h6>ਫ਼ਿਲਟਰ ਲਾਗੂ ਕਰੋ</h6>
+        </button>
+    </div>
+
+    <div class="d-flex flex-wrap justify-content-center">
+        <div class="bg-main-light rounded-3 p-4 m-2" style="min-width: 10em;">
+            <!-- Activities pie chart -->
+            <h5 class="text-center">ਖੇਡ ਵੰਡ</h5>
+            <canvas id="activityTypesPieChart"></canvas>
+        </div>
+
+        <div class="bg-main-light rounded-3 p-4 m-2" style="min-width: 10em;">
+            <!-- Activity categories pie chart -->
+            <h5 class="text-center">ਖੇਡ ਸ਼੍ਰੇਣੀ ਵੰਡ</h5>
+            <canvas id="activityCategoriesPieChart"></canvas>
+        </div>
+
+        <div class="bg-main-light rounded-3 p-4 m-2" style="min-width: 45em;">
+            <!-- User bar chart -->
+            <h5 class="text-center">ਵਿਧਿਆਰਥੀ</h5>
+            <canvas id="userActivitiesBarChart"></canvas>
+        </div>
+    </div>
+
+    <!-- Usage stats -->
+    <div class="bg-main-light rounded-3 p-4 m-2" style="width: 100%;">
+        <h5 class="text-center">ਵਰਤੋਂ ਸੰਖੇਪ</h5>
+        <div style="height: 200px;">
+            <canvas id="usageStatsChart"></canvas>
+        </div>
+    </div>
+
+    <!-- Painti akhar grid stats -->
+    <div class="d-flex flex-wrap justify-content-center">
+        <div class="bg-main-light rounded-3 p-4 m-2" style="min-width: 35em;">
+            <h5 class="text-center">ਅੱਖਰ ਅੰਕੜੇ</h5>
+            <table class="table table-striped">
+                {% for row in [["ੳ", "ਅ", "ੲ", "ਸ", "ਹ"], ["ਕ", "ਖ", "ਗ", "ਘ", "ਙ"], ["ਚ", "ਛ", "ਜ", "ਝ", "ਞ"], ["ਟ", "ਠ", "ਡ", "ਢ", "ਣ"], ["ਤ", "ਥ", "ਦ", "ਧ", "ਨ"], ["ਪ", "ਫ", "ਬ", "ਭ", "ਮ"], ["ਯ", "ਰ", "ਲ", "ਵ", "ੜ"], ["ਸ਼", "ਜ਼", "ਫ਼", "ਖ਼", "ਗ਼", "ਲ਼"]] %}
+                <div class="row">
+                    {% for akhar in row %}
+                    <div class="col-xl p-1" style="max-width: 20%;">
+                        <button id="akhar-{{ akhar }}" class="btn-press-blank w-100 border border-2 border-dark" style="background-color: rgba(0, 0, 0, 0);">
+                            <h1>{{ akhar }}</h1>
+                            <p id="akhar-accuracy-text-{{ akhar }}">-%<br/>(0/0)</p>
+                        </button>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endfor %}
+            </table>
+        </div>
+
+        <!-- Akhar timeline -->
+        <div class="bg-main-light rounded-3 p-4 m-2" style="min-width: 40em;">
+            <h5 class="text-center">ਅੱਖਰ ਸਕੋਰ ਟਾਈਮਲਾਇਨ</h5>
+            <canvas id="akharTimelineChart"></canvas>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/analytics.js') }}"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        updateAnalytics();
+    });
+
+    function updateAnalytics() {
+        // Get analytics data with AJAX
+        $.ajax({
+            url: '/get-analytics',
+            type: 'GET',
+            data: {
+                game: $('#game-filter-select').val(),
+                category: $('#category-filter-select').val(),
+                student_id: $('#student-filter-select').val(),
+                recency: $('#date-filter-select').val()
+            },
+            success: function(response) {
+                // Display analytics
+                displayAnalytics(response);
+            },
+            error: function(error) {
+                alert('Error updating analytics: ' + error);
+            }
+        });
+    }
+</script>
+{% endblock %}

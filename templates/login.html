@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+<div class="container bg-main-light rounded-3 p-4 text-center" style="max-width: 400px;">
+    <h2 class="">ਲਾਗਇਨ</h2>
+    <br/>
+    <form method="POST" action="{{ url_for('login') }}">
+        <div class="mb-3">
+            <input type="text" class="form-control" id="user_id" name="user_id" 
+                   placeholder="Enter your User ID" required autofocus>
+        </div>
+        <button type="submit" class="btn-press bg-blue-dark w-100">Login</button>
+        {% if error %}
+        <div class="text-red">{{ error }}</div>
+        {% endif %}
+    </form>
+</div>
+{% endblock %} 
