@@ -30,7 +30,7 @@ function updateAkharStats(akhar, totalCorrect, totalAttempts) {
     let red = Math.floor(redRange[0] + (redRange[1] - redRange[0]) * (accuracy - passAccuracy) / (100 - passAccuracy));
     let green = Math.floor(greenRange[0] + (greenRange[1] - greenRange[0]) * (accuracy - passAccuracy) / (100 - passAccuracy));
     let blue = Math.floor(blueRange[0] + (blueRange[1] - blueRange[0]) * (accuracy - passAccuracy) / (100 - passAccuracy));
-    let alpha = Math.min(totalAttempts, 30) / 30;
+    let alpha = Math.min(totalAttempts, 10) / 10;
 
     // Set the background color of the button
     akharButton.style.backgroundColor = `rgba(${red}, ${green}, ${blue}, ${alpha})`;
