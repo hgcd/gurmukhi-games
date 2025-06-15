@@ -78,6 +78,10 @@ def login():
     if request.method == 'POST':
         user_id = request.form.get('user_id').lower()
         print("Attempting to login with user_id: ", user_id)
+
+        # Refresh users
+        USERS = get_users_dict()
+
         if user_id in USERS:
             session['user_id'] = user_id
             session['user_name'] = user_id
