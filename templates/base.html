@@ -50,7 +50,7 @@
         {% block styles %}{% endblock %}
     </head>
     <body>
-        <nav class="navbar navbar-expand-lg bg-main-light main-text">
+        <nav class="navbar navbar-expand-lg bg-main-light main-text w-100">
             <div class="container">
                 <a class="btn-press-blank text-decoration-none" href="{{ url_for('index') }}">
                     <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Gurmukhi Games Logo" class="me-3" style="width: 40px; height: 40px;">
@@ -75,7 +75,7 @@
                 {% endif %}
             </div>
         </nav>
-        <div class="container-fluid p-4 main-text">
+        <div class="container-fluid p-1 main-text">
             {% block content %}{% endblock %}
         </div>
         <div id="modal" class="modal" tabindex="-1">

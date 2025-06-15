@@ -3181,12 +3181,12 @@ const WORD_DATA = {
                 "audio": "https://storage.googleapis.com/punjabi-app-2023.appspot.com/words/f_%E0%A8%9C%E0%A9%9C.m4a",
                 "english": "root"
             },
-            {
-                "punjabi_gurmukhi": "ਤਖਤ",
-                "punjabi_roman": "takhat",
-                "audio": "https://storage.googleapis.com/punjabi-app-2023.appspot.com/words/f_%E0%A8%A4%E0%A8%96%E0%A8%A4.m4a",
-                "english": "throne"
-            },
+            // {
+            //     "punjabi_gurmukhi": "ਤਖਤ",
+            //     "punjabi_roman": "takhat",
+            //     "audio": "https://storage.googleapis.com/punjabi-app-2023.appspot.com/words/f_%E0%A8%A4%E0%A8%96%E0%A8%A4.m4a",
+            //     "english": "throne"
+            // },
             {
                 "punjabi_gurmukhi": "ਤਰਸ",
                 "punjabi_roman": "taras",
@@ -3259,12 +3259,12 @@ const WORD_DATA = {
                 "audio": "https://storage.googleapis.com/punjabi-app-2023.appspot.com/words/f_%E0%A8%AA%E0%A8%95%E0%A9%9C.m4a",
                 "english": "grip"
             },
-            {
-                "punjabi_gurmukhi": "ਪਤਝੜ",
-                "punjabi_roman": "patajhaṛ",
-                "audio": "https://storage.googleapis.com/punjabi-app-2023.appspot.com/words/f_%E0%A8%AA%E0%A8%A4%E0%A8%9D%E0%A9%9C.m4a",
-                "english": "autumn"
-            },
+            // {
+            //     "punjabi_gurmukhi": "ਪਤਝੜ",
+            //     "punjabi_roman": "patajhaṛ",
+            //     "audio": "https://storage.googleapis.com/punjabi-app-2023.appspot.com/words/f_%E0%A8%AA%E0%A8%A4%E0%A8%9D%E0%A9%9C.m4a",
+            //     "english": "autumn"
+            // },
             {
                 "punjabi_gurmukhi": "ਪਰਬਤ",
                 "punjabi_roman": "parabat",

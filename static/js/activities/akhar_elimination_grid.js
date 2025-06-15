@@ -47,9 +47,9 @@ function generateGrid() {
             const akhar = grid[index];
             
             const td = document.createElement("td");
-            td.className = "p-2 bg-transparent";
+            td.className = "p-1 bg-transparent";
             td.innerHTML = `
-                <button id="grid-cell-${index}" class="btn-press text-center p-4 gurmukhi-braah-one w-100 h-100" onclick="selectAkhar('${akhar}', ${index})">
+                <button id="grid-cell-${index}" class="btn-press text-center p-2 gurmukhi-braah-one w-100 h-100" onclick="selectAkhar('${akhar}', ${index})">
                     <h1>${akhar}</h1>
                 </button>
             `;

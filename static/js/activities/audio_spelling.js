@@ -2,7 +2,7 @@ let words = [];
 
 let MAX_ROUNDS = 10;
 const MAX_WORDS = 15;
-const MAX_OPTIONS = 10;
+const MAX_OPTIONS = 7;
 
 let predAkharSeq;
 let akharBank;

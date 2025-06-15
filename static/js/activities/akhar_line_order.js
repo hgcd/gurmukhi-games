@@ -18,6 +18,7 @@ let selectedAkhars = [];
 let correctOrder = [];
 let akharMistakes = [];
 let akharCorrect = [];
+let answerRevealed = false;
 
 // DOM elements
 const startView = document.getElementById('start-view');
@@ -42,6 +43,7 @@ function initGame() {
     updateDisplay();
     showView(startView);
     nextButton.classList.add('d-none');
+    answerRevealed = false;
 }
 
 // Start a new round
@@ -64,6 +66,9 @@ function startRound() {
     updateLineDisplay();
     updateOptionsDisplay(shuffledLine);
     updateProgress();
+    
+    // Reset answer revealed
+    answerRevealed = false;
     
     // Show game view
     showView(gameView);
@@ -111,6 +116,13 @@ function checkAnswer() {
     // Only process if all 5 akhars have been selected
     if (selectedAkhars.length !== 5) {
         return;
+    }
+
+    // Set answer revealed to true if it is not already
+    if (answerRevealed) {
+        return;
+    } else {
+        answerRevealed = true;
     }
 
     let correctCount = 0;
