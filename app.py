@@ -150,9 +150,6 @@ def akhar_elimination_grid():
 @app.route('/activities/akhar-line-order')
 @login_required
 def akhar_line_order():
-    # Temporarily redirect to akhar-recognition for kirpa because she's going crazy with this game
-    if session.get('user_id') == 'kirpa kaur':
-        return redirect(url_for('akhar_recognition'))
     return render_template('activities/akhar_line_order.html')
 
 @app.route('/activities/batch-tracing')
