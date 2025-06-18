@@ -71,8 +71,14 @@ function displayAnalytics(stats) {
     );
 
     // Update user activities pie chart
+    console.log(stats.activity_stats);
     updateUserActivitiesBarChart(
         stats.activity_stats.user_activities_counts
+    );
+
+    // Update points bar chart
+    updatePointsBarChart(
+        stats.activity_stats.user_points_stats
     );
 
     // Update usage stats chart
@@ -330,6 +336,41 @@ function updateUsageStatsChart(data) {
                     display: false
                 }
             }
+        }
+    });
+}
+
+function updatePointsBarChart(data) {
+    // Destroy existing chart if it exists
+    let existingChart = Chart.getChart("pointsBarChart");
+    if (existingChart) {
+        existingChart.destroy();
+    }
+
+    let users = Object.keys(data);
+    let points= Object.values(data);
+
+    // Create new chart
+    const ctx = document.getElementById('pointsBarChart');
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: users,
+            datasets: [
+                {
+                    data: points,
+                    borderColor: "rgb(0, 0, 0, 1)",
+                    borderWidth: 1,
+                    backgroundColor: "rgba(97, 166, 220, 0.8)",
+                }
+            ],
+        },
+        options: {
+            plugins: {
+                legend: {
+                    display: false
+                }
+            },
         }
     });
 }

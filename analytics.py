@@ -40,11 +40,16 @@ def get_activity_stats(data):
         activity_categories.extend(item['categories'])
     activity_categories_counts = dict(Counter(activity_categories))
     user_activities_counts = dict(Counter(item['user_id'] for item in data))
+    points_stats = Counter()
+    for item in data:
+        points_stats[item['user_id']] += item['points']
+    points_stats = dict(points_stats)
 
     activity_stats = {
         'activity_type_counts': activity_type_counts,
         'activity_categories_counts': activity_categories_counts,
-        'user_activities_counts': user_activities_counts
+        'user_activities_counts': user_activities_counts,
+        'user_points_stats': points_stats
     }
 
     return activity_stats

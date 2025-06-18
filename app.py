@@ -118,7 +118,7 @@ def index():
     # Get all game details
     game_details = [
         game for game in GAME_DETAILS
-        if game['game_id'] in ["akhar-recognition", "akhar-line-order", "akhar-elimination-grid", "audio-spelling"]
+        if game['game_id'] in ["akhar-recognition", "akhar-elimination-grid", "audio-spelling"]
     ]
     return render_template('index.html', leaderboard=leaderboard, game_details=game_details)
 
