@@ -5,33 +5,62 @@
 {% block content %}
 <div class="container-fluid">
     <!-- Leaderboard -->
-     {% if leaderboard %}
-     <div class="d-flex justify-content-center">
-        <div style="width: 100%;max-width: 500px;">
-            <h2 class="text-center"><i class="bi bi-trophy-fill"></i> ਲੀਡਰਬੋਰਡ</h2>
-            <hr/>
-            {% for user in leaderboard %}
-                <div class="row h4">
-                    <div class="col-8 text-white">
-                        {% if loop.index0 == 0 %}
-                            <i class="bi bi-star-fill" style="color: gold;"></i>
-                        {% endif %}
-                        {% if loop.index0 == 1 %}
-                            <i class="bi bi-star-fill" style="color: silver;"></i>
-                        {% endif %}
-                        {% if loop.index0 == 2 %}
-                            <i class="bi bi-star-fill" style="color: #cd7f32;"></i>
-                        {% endif %}
-                        {{ user.id }}
-                    </div>
-                    <div class="col-4 text-end">💎 {{ user.points }}</div>
-                </div>
+    <h3 class="text-center">
+        <i class="bi bi-trophy-fill"></i>
+        ਲੀਡਰਬੋਰਡ
+        <i class="bi bi-trophy-fill"></i>
+    </h3>
+    <div class="d-flex justify-content-center gap-4 flex-column flex-md-row">
+        {% if alltime_leaderboard %}
+            <div class="border border-light rounded-3 p-4" style="width: 100%;min-width: 300px;max-width: 500px;">
+                <h4 class="text-center">All-time</h4>
                 <hr/>
-            {% endfor %}
+                {% for user in alltime_leaderboard %}
+                    <div class="row h4">
+                        <div class="col-8 text-white">
+                            {% if loop.index0 == 0 %}
+                                <i class="bi bi-star-fill" style="color: gold;"></i>
+                            {% elif loop.index0 == 1 %}
+                                <i class="bi bi-star-fill" style="color: silver;"></i>
+                            {% elif loop.index0 == 2 %}
+                                <i class="bi bi-star-fill" style="color: #cd7f32;"></i>
+                            {% else %}
+                                <i class="bi bi-star" style="color: #7e87ab;"></i>
+                            {% endif %}
+                            {{ user.id }}
+                        </div>
+                        <div class="col-4 text-end">💎 {{ user.points }}</div>
+                    </div>
+                    <hr/>
+                {% endfor %}
             </div>
-        </div>
-     </div>
-     {% endif %}
+        {% endif %}
+
+        {% if daily_leaderboard %}
+            <div class="border border-light rounded-3 p-4" style="width: 100%;min-width: 300px;max-width: 500px;">
+                <h4 class="text-center">Today</h4>
+                <hr/>
+                {% for user in daily_leaderboard %}
+                    <div class="row h4">
+                        <div class="col-8 text-white">
+                            {% if loop.index0 == 0 %}
+                                <i class="bi bi-star-fill" style="color: gold;"></i>
+                            {% elif loop.index0 == 1 %}
+                                <i class="bi bi-star-fill" style="color: silver;"></i>
+                            {% elif loop.index0 == 2 %}
+                                <i class="bi bi-star-fill" style="color: #cd7f32;"></i>
+                            {% else %}
+                                <i class="bi bi-star" style="color: #7e87ab;"></i>
+                            {% endif %}
+                            {{ user.id }}
+                        </div>
+                        <div class="col-4 text-end">💎 {{ user.points }}</div>
+                    </div>
+                    <hr/>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
 
      <br/><br/>
 

@@ -20,7 +20,7 @@ GAME_DETAILS = [
         "game_id": "akhar-recognition",
         "name": "Akhar Recognition",
         "description": "Practice identifying Gurmukhi letters by sound",
-        "color_class": "bg-red-light",
+        "color_class": "bg-orange-light",
         "icon": "🎯"
     },
     {
@@ -103,24 +103,48 @@ def index():
     # Refresh all users
     USERS = get_users_dict()
 
-    # Generate leaderboard
-    leaderboard = []
+    # Generate all-time leaderboard
+    alltime_leaderboard = []
     for user_id, user_data in USERS.items():
         if USERS[user_id]["type"] == "student" and USERS[user_id]["points"] > 0:
-            leaderboard.append({
+            alltime_leaderboard.append({
                 'id': user_id,
                 'points': user_data['points']
             })
 
-    leaderboard.sort(key=lambda x: x['points'], reverse=True)
-    leaderboard = leaderboard[:5]
+    alltime_leaderboard.sort(key=lambda x: x['points'], reverse=True)
+    alltime_leaderboard = alltime_leaderboard[:5]
+
+    # Generate daily leaderboard
+    all_records = db.activity_records.find({"datetime": {"$gte": datetime.now() - timedelta(days=1)}})
+    user_points = {}
+    for record in all_records:
+        if record['user_id'] in user_points:
+            user_points[record['user_id']] += record['points']
+        else:
+            user_points[record['user_id']] = record['points']
+    
+    daily_leaderboard = []
+    for user_id, points in user_points.items():
+        daily_leaderboard.append({
+            'id': user_id,
+            'points': points
+        })
+
+    daily_leaderboard.sort(key=lambda x: x['points'], reverse=True)
+    daily_leaderboard = daily_leaderboard[:5]
 
     # Get all game details
     game_details = [
         game for game in GAME_DETAILS
-        if game['game_id'] in ["akhar-recognition", "akhar-elimination-grid", "audio-spelling"]
+        if game['game_id'] in ["akhar-recognition", "akhar-elimination-grid"]
     ]
-    return render_template('index.html', leaderboard=leaderboard, game_details=game_details)
+    return render_template(
+        'index.html',
+        alltime_leaderboard=alltime_leaderboard,
+        game_details=game_details,
+        daily_leaderboard=daily_leaderboard
+    )
 
 @app.route('/activities/audio-spelling')
 def audio_spelling():

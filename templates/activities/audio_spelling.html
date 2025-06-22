@@ -52,7 +52,57 @@
         <div class="rounded-3 p-3 bg-white rounded-3" style="min-height: 4em;">
             <h1 id="guessed-word" class="text-center gurmukhi-braah-one"></h1>
         </div>
-        <br/>
+        <br/><div class="d-flex justify-content-center gap-4">
+            {% if alltime_leaderboard %}
+                <div class="border border-light rounded-3 p-4" style="width: 100%;min-width: 300px;max-width: 500px;">
+                    <h4 class="text-center">All-time</h4>
+                    <hr/>
+                    {% for user in alltime_leaderboard %}
+                        <div class="row h4">
+                            <div class="col-8 text-white">
+                                {% if loop.index0 == 0 %}
+                                    <i class="bi bi-star-fill" style="color: gold;"></i>
+                                {% elif loop.index0 == 1 %}
+                                    <i class="bi bi-star-fill" style="color: silver;"></i>
+                                {% elif loop.index0 == 2 %}
+                                    <i class="bi bi-star-fill" style="color: #cd7f32;"></i>
+                                {% else %}
+                                    <i class="bi bi-star" style="color: #7e87ab;"></i>
+                                {% endif %}
+                                {{ user.id }}
+                            </div>
+                            <div class="col-4 text-end">💎 {{ user.points }}</div>
+                        </div>
+                        <hr/>
+                    {% endfor %}
+                </div>
+            {% endif %}
+    
+            {% if daily_leaderboard %}
+                <div class="border border-light rounded-3 p-4" style="width: 100%;min-width: 300px;max-width: 500px;">
+                    <h4 class="text-center">Today</h4>
+                    <hr/>
+                    {% for user in daily_leaderboard %}
+                        <div class="row h4">
+                            <div class="col-8 text-white">
+                                {% if loop.index0 == 0 %}
+                                    <i class="bi bi-star-fill" style="color: gold;"></i>
+                                {% elif loop.index0 == 1 %}
+                                    <i class="bi bi-star-fill" style="color: silver;"></i>
+                                {% elif loop.index0 == 2 %}
+                                    <i class="bi bi-star-fill" style="color: #cd7f32;"></i>
+                                {% else %}
+                                    <i class="bi bi-star" style="color: #7e87ab;"></i>
+                                {% endif %}
+                                {{ user.id }}
+                            </div>
+                            <div class="col-4 text-end">💎 {{ user.points }}</div>
+                        </div>
+                        <hr/>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
 
         <div id="akhar-bank" class="d-flex flex-wrap justify-content-center">
             <!-- Akhar Bank -->
@@ -75,7 +125,7 @@
 {% endblock %}
 
 {% block modal_content %}
-    <div class="text-center game-text">
+    <div class="text-center game-text text-blue-dark">
         <h1>Game Over</h1>
         <br/>
         <h2>💎 <span id="final-score" class="text-blue-dark">0</span></h2>
@@ -89,7 +139,6 @@
 
 {% block scripts %}
     <script src="{{ url_for('static', filename='js/data.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/game_utils.js') }}"></script>
     <script src="{{ url_for('static', filename='js/gurmukhi_utils.js') }}"></script>
     <script src="{{ url_for('static', filename='js/animations.js') }}"></script>
     <script src="{{ url_for('static', filename='js/activities/audio_spelling.js') }}"></script>
