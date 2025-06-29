@@ -91,6 +91,7 @@ function selectAkhar(akhar, index) {
         button.classList.remove("bg-gray-light");
         shakeElement(button.id);
         incorrectLetters.add(index);
+        score--;
         
         // Find and highlight the correct answer
         const correctIndex = grid.indexOf(currentAkhar);

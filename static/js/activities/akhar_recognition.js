@@ -103,6 +103,7 @@ function selectAkhar(akhar) {
         updateDisplay(); // Update display after score changes
         akhar_correct.push(currentAkhar);
     } else {
+        score--;
         akhar_mistakes.push(currentAkhar);
         akhar_mistakes.push(selectedAkhar);
     }

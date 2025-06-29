@@ -1,6 +1,6 @@
 let words = [];
 
-let MAX_ROUNDS = 3;
+let MAX_ROUNDS = 10;
 const MAX_WORDS = 15;
 const MAX_OPTIONS = 7;
 
@@ -47,6 +47,15 @@ function nextRound() {
         updateDisplay();
     } else {
         showView("end");
+        registerActivity(
+            "akhar recognition",
+            score,
+            ["listening", "recognition"],
+            {
+                "akhar_mistakes": incorrectAkhar,
+                "akhar_correct": correctAkhar
+            }
+        );
     }
 }
 
@@ -208,17 +217,20 @@ function removeAkhar() {
 
 function checkAnswer() {
     let numCorrect = 0;
+    let numIncorrect = 0;
     for (let i = 0; i < trueAkharSeq.length; i++) {
         if (predAkharSeq[i] === trueAkharSeq[i]) {
             numCorrect++;
             if (trueAkharSeq[i] != " ") {correctAkhar.push(trueAkharSeq[i]);}
         } else {
+            numIncorrect++;
             if (trueAkharSeq[i] != " ") {incorrectAkhar.push(stripNonAkhar(trueAkharSeq[i]));}
         }
     }
 
     // Update score
     score += numCorrect;
+    score -= numIncorrect;
     
     // Check if all akhar clusters are correct
     if (numCorrect === trueAkharSeq.length) {

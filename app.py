@@ -116,7 +116,7 @@ def index():
     alltime_leaderboard = alltime_leaderboard[:5]
 
     # Generate daily leaderboard
-    all_records = db.activity_records.find({"datetime": {"$gte": datetime.now() - timedelta(days=1)}})
+    all_records = db.activity_records.find({"datetime": {"$gte": datetime.now()}})
     user_points = {}
     for record in all_records:
         if record['user_id'] in user_points:
@@ -137,7 +137,7 @@ def index():
     # Get all game details
     game_details = [
         game for game in GAME_DETAILS
-        if game['game_id'] in ["akhar-recognition", "akhar-elimination-grid"]
+        if game['game_id'] in ["akhar-recognition", "akhar-elimination-grid", "audio-spelling"]
     ]
     return render_template(
         'index.html',
