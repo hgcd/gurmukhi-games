@@ -116,7 +116,7 @@ def index():
     alltime_leaderboard = alltime_leaderboard[:5]
 
     # Generate daily leaderboard
-    all_records = db.activity_records.find({"datetime": {"$gte": datetime.now()}})
+    all_records = db.activity_records.find({"datetime": {"$gte": datetime.now() - timedelta(days=0.5)}})
     user_points = {}
     for record in all_records:
         if record['user_id'] in user_points:
