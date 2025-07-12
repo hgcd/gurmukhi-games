@@ -31,6 +31,13 @@ GAME_DETAILS = [
         "icon": "🔤"
     },
     {
+        "game_id": "akhar-full-order",
+        "name": "Akhar Full Order",
+        "description": "Fill the 7x5 grid with Gurmukhi letters in correct order",
+        "color_class": "bg-green-light",
+        "icon": "📋"
+    },
+    {
         "game_id": "audio-spelling",
         "name": "Audio Spelling",
         "description": "Practice spelling Gurmukhi letters by listening to their audio pronunciation",
@@ -137,7 +144,7 @@ def index():
     # Get all game details
     game_details = [
         game for game in GAME_DETAILS
-        if game['game_id'] in ["akhar-recognition", "akhar-elimination-grid", "audio-spelling"]
+        if game['game_id'] in ["akhar-recognition", "akhar-elimination-grid", "akhar-full-order", "audio-spelling", "color-memory"]
     ]
     return render_template(
         'index.html',
@@ -180,6 +187,11 @@ def akhar_elimination_grid():
 def akhar_line_order():
     return render_template('activities/akhar_line_order.html')
 
+@app.route('/activities/akhar-full-order')
+@login_required
+def akhar_full_order():
+    return render_template('activities/akhar_full_order.html')
+
 @app.route('/activities/batch-tracing')
 @login_required
 def batch_tracing():
@@ -219,11 +231,17 @@ def register_activity():
         return jsonify({"success": False, "message": str(e)}), 500
 
 def update_user_points(user_id):
+    # Get all user points
     all_user_points = db.activity_records.find({"user_id": user_id}, {"points": 1})
     total_points = sum([
         item['points'] for item in all_user_points
         if item['points'] is not None
     ])
+
+    # Make 0 the lowest possible points
+    if total_points < 0:
+        total_points = 0
+
     db.users.update_one({"user_id": user_id}, {"$set": {"points": total_points}})
 
     # Refresh user points in session

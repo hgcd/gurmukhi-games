@@ -376,6 +376,12 @@ function nextRound() {
 function endGame() {
     document.getElementById("final-score").textContent = score;
     showView("end-view");
+
+    registerActivity(
+        "color memory",
+        score,
+        ["vocabulary"],
+    );
 }
 
 function updateDisplay() {

@@ -48,9 +48,9 @@ function nextRound() {
     } else {
         showView("end");
         registerActivity(
-            "akhar recognition",
+            "audio spelling",
             score,
-            ["listening", "recognition"],
+            ["listening", "recognition", "vocabulary"],
             {
                 "akhar_mistakes": incorrectAkhar,
                 "akhar_correct": correctAkhar
