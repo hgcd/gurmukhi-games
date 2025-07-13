@@ -144,7 +144,7 @@ def index():
     # Get all game details
     game_details = [
         game for game in GAME_DETAILS
-        if game['game_id'] in ["akhar-recognition", "akhar-elimination-grid", "akhar-full-order", "audio-spelling", "color-memory"]
+        if game['game_id'] in ["akhar-recognition", "akhar-elimination-grid", "akhar-line-order", "akhar-full-order", "audio-spelling", "color-memory"]
     ]
     return render_template(
         'index.html',
