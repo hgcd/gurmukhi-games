@@ -90,6 +90,7 @@ function displayAnalytics(stats) {
     clearAkharStatsGrid();
 
     // Update from akhar stats
+    console.log(stats.akhar_stats.akhar_stats);
     for (let akhar of Object.keys(stats.akhar_stats.akhar_stats)) {
         updateAkharStats(
             akhar,

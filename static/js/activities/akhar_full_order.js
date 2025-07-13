@@ -220,7 +220,7 @@ function checkAnswer() {
                     registerActivity(
                         "akhar full order",
                         akharCorrect.length - akharMistakes.length,
-                        ["listening", "reading", "vocabulary"],
+                        ["order"],
                         {
                             "akhar_mistakes": akharMistakes,
                             "akhar_correct": akharCorrect

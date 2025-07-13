@@ -50,7 +50,7 @@ function nextRound() {
         registerActivity(
             "audio spelling",
             score,
-            ["listening", "recognition", "vocabulary"],
+            ["listening", "recognition", "vocabulary", "spelling"],
             {
                 "akhar_mistakes": incorrectAkhar,
                 "akhar_correct": correctAkhar

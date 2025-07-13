@@ -58,6 +58,10 @@ def get_akhar_stats(data):
     all_akhar_correct, all_akhar_mistakes = [], []
     all_akhar_attempt_timeline = []
     for item in data:
+        # Skip if the item does not have akhar_correct or akhar_mistakes
+        if not ('stats' in item and 'akhar_correct' in item['stats'] and 'akhar_mistakes' in item['stats']):
+            continue
+        
         all_akhar_correct.extend(item['stats']['akhar_correct'])
         all_akhar_mistakes.extend(item['stats']['akhar_mistakes'])
 
