@@ -59,14 +59,18 @@ function nextRound() {
     }
 }
 
-function setWordData(topic) {
-    if (topic === "common") {
-        words = WORD_DATA.most_common_500_words.terms;
-        MAX_ROUNDS = MAX_ROUNDS > words.length ? words.length : MAX_ROUNDS;
-    } else if (topic === "mukta") {
-        words = WORD_DATA.mukta_words.terms;
-        MAX_ROUNDS = MAX_ROUNDS > words.length ? words.length : MAX_ROUNDS;
-    }
+function startGameWithTopic(topic) {
+    fetch('/get-vocab?topic=' + topic)
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            words = data.data;
+            MAX_ROUNDS = MAX_ROUNDS > words.length ? words.length : MAX_ROUNDS;
+
+            // Start game
+            initGame();
+        }
+    });
 }
 
 function resetGame() {
@@ -98,7 +102,7 @@ function updateRound() {
     }
 
     // Update english word
-    document.getElementById("english-word").innerHTML = "\"" + words[roundIndex].english + "\"";
+    document.getElementById("english-word").innerHTML = words[roundIndex].english;
 }
 
 function getAkharBank() {

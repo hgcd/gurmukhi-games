@@ -10,11 +10,20 @@
         <br/>
         <h5 class="text-muted">Spell the word you hear</h5>
         <br/>
-        <button id="start-button" class="btn-press bg-red-dark m-1" onclick="setWordData('mukta');initGame();">
+        <button id="start-button" class="btn-press bg-red-dark m-1" onclick="startGameWithTopic('common_mukta_words');">
             <h3>Mukta words</h3>
         </button>
-        <button id="start-button" class="btn-press bg-blue-dark m-1" onclick="setWordData('common');initGame()">
-            <h3>Common words</h3>
+        <button id="start-button" class="btn-press bg-blue-dark m-1" onclick="startGameWithTopic('common_animals');">
+            <h3>Animals</h3>
+        </button>
+        <button id="start-button" class="btn-press bg-green-dark m-1" onclick="startGameWithTopic('common_vegetables');">
+            <h3>Vegetables</h3>
+        </button>
+        <button id="start-button" class="btn-press bg-orange-dark m-1" onclick="startGameWithTopic('common_fruits');">
+            <h3>Fruits</h3>
+        </button>
+        <button id="start-button" class="btn-press bg-main-dark m-1" onclick="startGameWithTopic('common_colors');">
+            <h3>Colors</h3>
         </button>
     </div>
 
@@ -52,57 +61,7 @@
         <div class="rounded-3 p-3 bg-white rounded-3" style="min-height: 4em;">
             <h1 id="guessed-word" class="text-center gurmukhi-braah-one"></h1>
         </div>
-        <br/><div class="d-flex justify-content-center gap-4">
-            {% if alltime_leaderboard %}
-                <div class="border border-light rounded-3 p-4" style="width: 100%;min-width: 300px;max-width: 500px;">
-                    <h4 class="text-center">All-time</h4>
-                    <hr/>
-                    {% for user in alltime_leaderboard %}
-                        <div class="row h4">
-                            <div class="col-8 text-white">
-                                {% if loop.index0 == 0 %}
-                                    <i class="bi bi-star-fill" style="color: gold;"></i>
-                                {% elif loop.index0 == 1 %}
-                                    <i class="bi bi-star-fill" style="color: silver;"></i>
-                                {% elif loop.index0 == 2 %}
-                                    <i class="bi bi-star-fill" style="color: #cd7f32;"></i>
-                                {% else %}
-                                    <i class="bi bi-star" style="color: #7e87ab;"></i>
-                                {% endif %}
-                                {{ user.id }}
-                            </div>
-                            <div class="col-4 text-end">💎 {{ user.points }}</div>
-                        </div>
-                        <hr/>
-                    {% endfor %}
-                </div>
-            {% endif %}
-    
-            {% if daily_leaderboard %}
-                <div class="border border-light rounded-3 p-4" style="width: 100%;min-width: 300px;max-width: 500px;">
-                    <h4 class="text-center">Today</h4>
-                    <hr/>
-                    {% for user in daily_leaderboard %}
-                        <div class="row h4">
-                            <div class="col-8 text-white">
-                                {% if loop.index0 == 0 %}
-                                    <i class="bi bi-star-fill" style="color: gold;"></i>
-                                {% elif loop.index0 == 1 %}
-                                    <i class="bi bi-star-fill" style="color: silver;"></i>
-                                {% elif loop.index0 == 2 %}
-                                    <i class="bi bi-star-fill" style="color: #cd7f32;"></i>
-                                {% else %}
-                                    <i class="bi bi-star" style="color: #7e87ab;"></i>
-                                {% endif %}
-                                {{ user.id }}
-                            </div>
-                            <div class="col-4 text-end">💎 {{ user.points }}</div>
-                        </div>
-                        <hr/>
-                    {% endfor %}
-                </div>
-            {% endif %}
-        </div>
+        <br/>
 
         <div id="akhar-bank" class="d-flex flex-wrap justify-content-center">
             <!-- Akhar Bank -->

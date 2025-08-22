@@ -7,13 +7,22 @@ db = MongoDBConnection.get_db()
 
 def get_all_activity_data():
     # Get all activity data from the database
-    data = db.activity_records.find({}, {"_id": 0, "user_id": 1, "name": 1, "datetime": 1, "categories": 1, "points": 1, "stats": 1})
+    data = db.activity_records.find({}, {
+        "_id": 0,
+        "user_id": 1,
+        "name": 1,
+        "datetime": 1,
+        "categories": 1,
+        "points": 1,
+        "stats": 1,
+        "class_id": 1
+    })
     return list(data)
 
 def get_usage_stats(data):
     # Get timeline of number of activities each day
     min_datetime = min(item['datetime'] for item in data)
-    max_datetime = datetime.now()
+    max_datetime = max(item['datetime'] for item in data)
     all_dates = [min_datetime + timedelta(days=x) for x in range((max_datetime - min_datetime).days + 2)]
 
     # Get number of activities for each date

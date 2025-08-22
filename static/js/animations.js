@@ -1,23 +1,38 @@
 function shakeElement(id) {
     // Add a CSS class for the shake animation
-    document.getElementById(id).classList.add('shake-animation');
-    
-    // Remove the class after animation completes
-    setTimeout(() => {
-        document.getElementById(id).classList.remove('shake-animation');
-    }, 500);
+    const element = document.getElementById(id);
+    if (element) {
+        element.classList.add('shake-animation');
+        
+        // Remove the class after animation completes
+        setTimeout(() => {
+            element.classList.remove('shake-animation');
+        }, 500);
+    } else {
+        console.warn(`Element with id '${id}' not found for shake animation`);
+    }
 }
 
 function dipElement(id) {
-    document.getElementById(id).classList.add('dip-animation');
-    setTimeout(() => {
-        document.getElementById(id).classList.remove('dip-animation');
-    }, 500);
+    const element = document.getElementById(id);
+    if (element) {
+        element.classList.add('dip-animation');
+        setTimeout(() => {
+            element.classList.remove('dip-animation');
+        }, 500);
+    } else {
+        console.warn(`Element with id '${id}' not found for dip animation`);
+    }
 }
 
 function bounceElement(id) {
-    document.getElementById(id).classList.add('bounce-animation');
-    setTimeout(() => {
-        document.getElementById(id).classList.remove('bounce-animation');
-    }, 500);
+    const element = document.getElementById(id);
+    if (element) {
+        element.classList.add('bounce-animation');
+        setTimeout(() => {
+            element.classList.remove('bounce-animation');
+        }, 500);
+    } else {
+        console.warn(`Element with id '${id}' not found for bounce animation`);
+    }
 }

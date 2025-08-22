@@ -5,15 +5,15 @@
 {% block content %}
 <div class="container-fluid">
     <!-- Leaderboard -->
-    <h3 class="text-center">
-        <i class="bi bi-trophy-fill"></i>
-        ਲੀਡਰਬੋਰਡ
-        <i class="bi bi-trophy-fill"></i>
-    </h3>
     <div class="d-flex justify-content-center gap-4 flex-column flex-md-row">
         {% if alltime_leaderboard %}
-            <div class="border border-light rounded-3 p-4" style="width: 100%;min-width: 300px;max-width: 500px;">
-                <h4 class="text-center">All-time</h4>
+            <div class="mx-auto"style="width: 100%;min-width: 300px;max-width: 500px;">
+                <h3 class="text-center">
+                    <i class="bi bi-trophy-fill"></i>
+                    <span class="eng-lang-text">Leaderboard</span>
+                    <span class="pa-lang-text">ਲੀਡਰਬੋਰਡ</span>
+                    <i class="bi bi-trophy-fill"></i>
+                </h3>
                 <hr/>
                 {% for user in alltime_leaderboard %}
                     <div class="row h4">
@@ -27,9 +27,10 @@
                             {% else %}
                                 <i class="bi bi-star" style="color: #7e87ab;"></i>
                             {% endif %}
-                            {{ user.id }}
+                            <span class="eng-lang-text">{{ user.name_english }}</span>
+                            <span class="pa-lang-text">{{ user.name_punjabi }}</span>
                         </div>
-                        <div class="col-4 text-end">💎 {{ user.points }}</div>
+                        <div class="col-4 text-end">💎 <span class="num-lang-text">{{ user.points }}</span></div>
                     </div>
                     <hr/>
                 {% endfor %}
@@ -37,8 +38,13 @@
         {% endif %}
 
         {% if daily_leaderboard %}
-            <div class="border border-light rounded-3 p-4" style="width: 100%;min-width: 300px;max-width: 500px;">
-                <h4 class="text-center">Today</h4>
+            <div class="mx-auto" style="width: 100%;min-width: 300px;max-width: 500px;">
+                <h3 class="text-center">
+                    <i class="bi bi-trophy-fill"></i>
+                    <span class="eng-lang-text">Today's Leaderboard</span>
+                    <span class="pa-lang-text">ਅੱਜ ਦਾ ਲੀਡਰਬੋਰਡ</span>
+                    <i class="bi bi-trophy-fill"></i>
+                </h3>
                 <hr/>
                 {% for user in daily_leaderboard %}
                     <div class="row h4">
@@ -52,9 +58,10 @@
                             {% else %}
                                 <i class="bi bi-star" style="color: #7e87ab;"></i>
                             {% endif %}
-                            {{ user.id }}
+                            <span class="eng-lang-text">{{ user.name_english }}</span>
+                            <span class="pa-lang-text">{{ user.name_punjabi }}</span>
                         </div>
-                        <div class="col-4 text-end">💎 {{ user.points }}</div>
+                        <div class="col-4 text-end">💎 <span class="num-lang-text">{{ user.points }}</span></div>
                     </div>
                     <hr/>
                 {% endfor %}
@@ -72,8 +79,31 @@
                     <div class="card h-100 {{ game.color_class }}">
                         <div class="card-body text-center">
                             <h1 class="display-4">{{ game.icon }}</h1>
-                            <h2 class="card-title">{{ game.name }}</h2>
-                            <p class="card-text">{{ game.description }}</p>
+                            <h2 class="card-title">
+                                <span class="eng-lang-text">{{ game.name_english }}</span>
+                                <span class="pa-lang-text">{{ game.name_punjabi }}</span>
+                            </h2>
+                            <p class="card-text">
+                                <span class="eng-lang-text">{{ game.description_english }}</span>
+                                <span class="pa-lang-text">{{ game.description_punjabi }}</span>
+                            </p>
+                            {% if game.skills %}
+                                {% for skill in game.skills %}
+                                    <span class="p-1 px-2 border border-dark rounded-3 m-1 text-small">
+                                        {% if skill == "vocabulary" %}
+                                            <i class="bi bi-book"></i>
+                                        {% elif skill == "spelling" %}
+                                            <i class="bi bi-type"></i>
+                                        {% elif skill == "recognition" %}
+                                            <i class="bi bi-eye-fill"></i>
+                                        {% elif skill == "listening" %}
+                                            <i class="bi bi-volume-up-fill"></i>
+                                        {% elif skill == "order" %}
+                                            <i class="bi bi-list-ol"></i>
+                                        {% endif %}
+                                    </span>
+                                {% endfor %}
+                            {% endif %}
                         </div>
                     </div>
                 </a>

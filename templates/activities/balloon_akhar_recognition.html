@@ -1,0 +1,240 @@
+{% extends "base.html" %}
+
+{% block title %}Balloon Akhar Recognition{% endblock %}
+
+{% block content %}
+<div class="container p-4 bg-main-light rounded-3">
+    <!-- Start View -->
+    <div id="start-view" class="text-center bg-main-light rounded-3 p-4">
+        <h1 class="mb-4">Balloon Akhar Recognition</h1>
+        <p class="text-muted">Listen to the audio and pop the correct balloon!</p>
+        <button class="btn-press bg-red-dark m-1" onclick="startGame()">
+            <h2>Start</h2>
+        </button>
+    </div>
+
+    <!-- Game View -->
+    <div id="game-view" class="d-none">
+        <!-- Header -->
+        <div class="row">
+            <div class="col-3">
+                <!-- Hearts (Lives) -->
+                <div class="d-flex gap-2 mt-2">
+                    <div id="heart-1" class="heart">❤️</div>
+                    <div id="heart-2" class="heart">❤️</div>
+                    <div id="heart-3" class="heart">❤️</div>
+                </div>
+            </div>
+            <div class="col-6 text-center">
+                <!-- Feedback Messages -->
+                <div id="feedback-container">
+                    <div id="correct-feedback" class="feedback-message correct-feedback d-none">
+                        <h2 class="text-success">✅ <span id="correct-letter"></span></h2>
+                    </div>
+                    <div id="incorrect-feedback" class="feedback-message incorrect-feedback d-none">
+                        <h2 class="text-danger">❌ <span id="incorrect-letter"></span></h2>
+                    </div>
+                </div>
+            </div>
+            <div class="col-3 text-end">
+                <h4>💎 <span id="score" class="text-blue-dark">0</span></h4>
+            </div>
+        </div>
+
+        <br/><br/>
+
+        <!-- Game Area -->
+        <div id="game-area" class="game-area">
+            <!-- Balloons will be dynamically created here -->
+            <div id="get-ready-message" class="get-ready-message d-none">
+                <h2 class="text-white">Get ready...</h2>
+            </div>
+        </div>
+
+        <!-- Audio Controls -->
+        <div class="text-center my-2">
+            <button id="play-audio" class="btn-press bg-blue-light m-1" onclick="playCurrentAudio()">
+                <h2><i class="bi bi-volume-up-fill"></i> Play Again</h2>
+            </button>
+        </div>
+    </div>
+
+    <!-- End View -->
+    <div id="end-view" class="text-center d-none">
+        <h1 class="mb-4">ਬਹੁਤ ਵਧੀਆ!</h1>
+        <br/>
+        <h2 class="text-blue">💎 +<span id="final-score">0</span></h2>
+        <div class="mt-4">
+            <h4>Stats:</h4>
+            <p>Correct: <span id="correct-count" class="text-success">0</span></p>
+            <p>Incorrect: <span id="incorrect-count" class="text-danger">0</span></p>
+            <p>Accuracy: <span id="accuracy-percent">0%</span></p>
+        </div>
+        <br/>
+        <button class="btn-press bg-blue-dark" onclick="initGame()">
+            <h2>ਫੇਰ ਖੇਡਾਂ</h2>
+        </button>
+    </div>
+</div>
+
+<style>
+.game-area {
+    position: relative;
+    height: 400px;
+    background: #2c3e50;
+    border-radius: 15px;
+    overflow: hidden;
+    border: 3px solid #34495e;
+}
+
+.balloon {
+    position: absolute;
+    width: 120px;
+    height: 150px;
+    border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    font-weight: bold;
+    color: #2c3e50;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    animation: float 15s linear infinite;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+}
+
+.balloon:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.4);
+}
+
+.balloon.correct {
+    background: linear-gradient(45deg, #27ae60, #2ecc71);
+    animation: correctPop 0.6s ease-out forwards;
+}
+
+.balloon.incorrect {
+    background: linear-gradient(45deg, #e74c3c, #c0392b);
+    animation: incorrectPop 0.6s ease-out forwards;
+}
+
+@keyframes float {
+    0% {
+        transform: translateY(100vh) translateX(0);
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    90% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-100px) translateX(0);
+        opacity: 0;
+    }
+}
+
+@keyframes correctPop {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.3); }
+    100% { transform: scale(0); opacity: 0; }
+}
+
+@keyframes incorrectPop {
+    0% { transform: scale(1); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+    100% { transform: scale(0); opacity: 0; }
+}
+
+.heart {
+    font-size: 2rem;
+    transition: all 0.3s ease;
+}
+
+.heart.lost {
+    animation: heartLost 0.6s ease-out forwards;
+}
+
+@keyframes heartLost {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(0); opacity: 0; }
+}
+
+.get-ready-message {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+    animation: getReadyPulse 2s ease-in-out;
+}
+
+@keyframes getReadyPulse {
+    0% { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
+    50% { opacity: 1; transform: translate(-50%, -50%) scale(1.1); }
+    100% { opacity: 0; transform: translate(-50%, -50%) scale(1); }
+}
+
+.feedback-message {
+    animation: feedbackSlide 0.5s ease-out;
+    font-size: 2rem;
+}
+
+@keyframes feedbackSlide {
+    0% { 
+        transform: translateY(-20px); 
+        opacity: 0; 
+    }
+    100% { 
+        transform: translateY(0); 
+        opacity: 1; 
+    }
+}
+
+.correct-feedback {
+    color: #27ae60;
+}
+
+.incorrect-feedback {
+    color: #e74c3c;
+}
+
+.balloon-string {
+    position: absolute;
+    bottom: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 2px;
+    height: 20px;
+    background: #2c3e50;
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+    .game-area {
+        height: 300px;
+    }
+    
+    .balloon {
+        width: 90px;
+        height: 112px;
+        font-size: 2.25rem;
+    }
+    
+    .heart {
+        font-size: 1.5rem;
+    }
+}
+</style>
+{% endblock %}
+
+{% block scripts %}
+    <script src="{{ url_for('static', filename='js/data.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/gurmukhi_utils.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/animations.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/activities/balloon_akhar_recognition.js') }}"></script>
+{% endblock %} 

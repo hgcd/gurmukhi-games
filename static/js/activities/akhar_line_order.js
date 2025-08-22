@@ -19,6 +19,7 @@ let correctOrder = [];
 let akharMistakes = [];
 let akharCorrect = [];
 let answerRevealed = false;
+let shuffledOptions = []; // Store shuffled options
 
 // DOM elements
 const startView = document.getElementById('start-view');
@@ -54,7 +55,7 @@ function startRound() {
     
     // Shuffle the line for options
     selectedAkhars = [];
-    const shuffledLine = [...currentLine].sort(() => Math.random() - 0.5);
+    shuffledOptions = [...currentLine].sort(() => Math.random() - 0.5);
     
     // Reset any previous feedback colors
     for (let i = 1; i <= 5; i++) {
@@ -64,7 +65,7 @@ function startRound() {
     
     // Update the display
     updateLineDisplay();
-    updateOptionsDisplay(shuffledLine);
+    updateOptionsDisplay(shuffledOptions);
     updateProgress();
     
     // Reset answer revealed
@@ -107,7 +108,7 @@ function removeLastAkhar() {
     if (selectedAkhars.length > 0) {
         selectedAkhars.pop();
         updateLineDisplay();
-        updateOptionsDisplay(currentLine);
+        updateOptionsDisplay(shuffledOptions);
     }
 }
 
@@ -126,6 +127,7 @@ function checkAnswer() {
     }
 
     let correctCount = 0;
+    let incorrectCount = 0;
     let delay = 0;
     
     for (let i = 0; i < 5; i++) {
@@ -137,6 +139,7 @@ function checkAnswer() {
             setTimeout(() => bounceElement(`akhar-container-${i + 1}`), delay);
             akharCorrect.push(selectedAkhars[i]);
         } else {
+            incorrectCount++;
             containerElement.classList.add('bg-failure-light');
             containerElement.classList.remove('bg-success-light');
             setTimeout(() => shakeElement(`akhar-container-${i + 1}`), delay);
@@ -145,9 +148,9 @@ function checkAnswer() {
         delay += 100; // Increase delay for each iteration
     }
     
-    // Update score and show next button after all animations
+    // Update score: correct - incorrect
     setTimeout(() => {
-        score += correctCount;
+        score += (correctCount - incorrectCount);
         updateDisplay();
         nextButton.classList.remove('d-none');
     }, delay);

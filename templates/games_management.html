@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+{% block title %}
+<span class="eng-lang-text">Games Management</span>
+<span class="pa-lang-text">ਖੇਡਾਂ ਪ੍ਰਬੰਧਨ</span>
+{% endblock %}
+
+{% block content %}
+<div class="container p-4 rounded-3">
+    <div class="row justify-content-center">
+        <div class="col-md-10">
+            <h2 class="text-center mb-4">
+                <span class="eng-lang-text">Games Management</span>
+                <span class="pa-lang-text">ਖੇਡਾਂ ਪ੍ਰਬੰਧਨ</span>
+            </h2>
+            
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                            {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
+            <div class="row">
+                {% for game in games %}
+                <div class="col-md-6 mb-4">
+                    <div class="card h-100">
+                        <div class="card-header {{ game.color_class }}">
+                            <h5 class="card-title mb-0">
+                                {{ game.icon }} 
+                                <span class="eng-lang-text">{{ game.name_english }}</span>
+                                <span class="pa-lang-text">{{ game.name_punjabi }}</span>
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            
+                            <form method="POST" action="{{ url_for('save_game_settings') }}">
+                                <input type="hidden" name="game_id" value="{{ game.game_id }}">
+                                
+                                <div class="mb-3">
+                                    <label for="whitelist-{{ game.game_id }}" class="form-label">
+                                        <span class="eng-lang-text">Whitelist Class IDs:</span>
+                                        <span class="pa-lang-text">ਵਾਇਟਲਿਸਟਜਮਾਤ ਆਈ.ਡੀ.:</span>
+                                    </label>
+                                    <textarea class="form-control" id="whitelist-{{ game.game_id }}" 
+                                              name="whitelist_class_ids" rows="2" 
+                                              placeholder="class IDs comma seperated (* for all)">{{ game.whitelist_class_ids | join(', ') }}</textarea>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="blacklist-{{ game.game_id }}" class="form-label">
+                                        <span class="eng-lang-text">Blacklist User IDs:</span>
+                                        <span class="pa-lang-text">ਬਲੈਕਲਿਸਟ ਉਪਭੋਗਤਾ ਆਈਡੀ:</span>
+                                    </label>
+                                    <textarea class="form-control" id="blacklist-{{ game.game_id }}" 
+                                              name="blacklist_user_ids" rows="2" 
+                                              placeholder="user IDs comma seperated">{{ game.blacklist_user_ids | join(', ') }}</textarea>
+                                </div>
+
+                                <div class="d-grid">
+                                    <button type="submit" class="btn-press bg-blue-dark">
+                                        <span class="eng-lang-text">Save</span>
+                                        <span class="pa-lang-text">ਸੁਰੱਖਿਅਤ ਕਰੋ</span>
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

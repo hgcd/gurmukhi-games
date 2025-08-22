@@ -3,82 +3,143 @@
 {% block title %}Analytics{% endblock %}
 
 {% block content %}
-<div class="w-100 bg-main-light rounded-3 p-4" style="min-width: 50em;">
-    <h1 class="text-center">ਗੁਰਮੁਖੀ ਖੇਡਾਂ ਨਿਖੇੜਾ</h1>
+<div class="w-100 bg-none rounded-3 p-4" style="min-width: 50em;">
+    <h5 class="text-center">
+        <span class="eng-lang-text">Gurmukhi Games Analytics</span>
+        <span class="pa-lang-text">ਗੁਰਮੁਖੀ ਖੇਡਾਂ ਨਿਖੇੜਾ</span>
+    </h5>
     <br/>
 
     <div class="p-4 m-2 d-flex flex-row justify-content-center">
         <!-- Filter options -->
-        <div class="input-group mx-2 border border-dark border-2 rounded-3" style="min-width: 10em;">
-            <span class="input-group-text" id="basic-addon1">ਖੇਡ</span>
-            <select id="game-filter-select" class="form-select">
+        <div class="mx-1" style="min-width: 7em;">
+            <label for="class-filter-select" class="form-label">
+                <span class="eng-lang-text">Class</span>
+                <span class="pa-lang-text">ਜਮਾਤ</span>
+            </label>
+            <select id="class-filter-select" class="form-select border border-dark border-2 rounded-3">
+                <option value="all">All</option>
+                <option value="class-1-summer-2025">Class 1 Summer 2025</option>
+                <option value="class-1-fall-2025">Class 1 Fall 2025</option>
+                <option value="class-2-fall-2025">Class 2 Fall 2025</option>
+            </select>
+        </div>
+        <div class="mx-1" style="min-width: 7em;">
+            <label for="game-filter-select" class="form-label">
+                <span class="eng-lang-text">Game</span>
+                <span class="pa-lang-text">ਖੇਡ</span>
+            </label>
+            <select id="game-filter-select" class="form-select border border-dark border-2 rounded-3">
                 <option value="all">All</option>
             </select>
         </div>
-        <div class="input-group mx-2 border border-dark border-2 rounded-3" style="min-width: 10em;">
-            <span class="input-group-text" id="basic-addon1">ਖੇਡ ਸ਼੍ਰੇਣੀ</span>
-            <select id="category-filter-select" class="form-select">
+        <div class="mx-1" style="min-width: 7em;">
+            <label for="category-filter-select" class="form-label">
+                <span class="eng-lang-text">Category</span>
+                <span class="pa-lang-text">ਸ਼੍ਰੇਣੀ</span>
+            </label>
+            <select id="category-filter-select" class="form-select border border-dark border-2 rounded-3">
                 <option value="all">All</option>
             </select>
         </div>
-        <div class="input-group mx-2 border border-dark border-2 rounded-3" style="min-width: 10em;">
-            <span class="input-group-text" id="basic-addon1">ਵਿਧਿਆਰਥੀ</span>
-            <select id="student-filter-select" class="form-select">
+        <div class="mx-1" style="min-width: 7em;">
+            <label for="student-filter-select" class="form-label">
+                <span class="eng-lang-text">Student</span>
+                <span class="pa-lang-text">ਵਿਧਿਆਰਥੀ</span>
+            </label>
+            <select id="student-filter-select" class="form-select border border-dark border-2 rounded-3">
                 <option value="all">All</option>
             </select>
         </div>
-        <div class="input-group mx-2 border border-dark border-2 rounded-3" style="min-width: 10em;">
-            <span class="input-group-text" id="basic-addon1">ਤਰੀਖ</span>
-            <select id="date-filter-select" class="form-select">
+        <div class="mx-1" style="min-width: 7em;">
+            <label for="date-filter-select" class="form-label">
+                <span class="eng-lang-text">Date</span>
+                <span class="pa-lang-text">ਤਰੀਖ</span>
+            </label>
+            <select id="date-filter-select" class="form-select border border-dark border-2 rounded-3">
                 <option value="all">All</option>
                 <option value="last_month">Last month</option>
-                <option value="last_week">Last week</option>
+                <option value="last_week" selected>Last week</option>
                 <option value="today">Today</option>
             </select>
         </div>
-        <button class="btn-press-flat bg-blue mx-2 pt-2" style="min-width: 5em;" onclick="updateAnalytics()">
-            <h6>ਫ਼ਿਲਟਰ</h6>
-        </button>
+        <div class="mx-1 d-flex align-items-end">
+            <button class="btn-press-flat bg-blue pt-2" style="min-width: 5em;" onclick="updateAnalytics()">
+                <h6>
+                    <span class="eng-lang-text">Filter</span>
+                    <span class="pa-lang-text">ਫ਼ਿਲਟਰ</span>
+                </h6>
+            </button>
+        </div>
     </div>
+
+    <div id="error-message" class="text-center bg-red p-2 rounded-3 d-none mb-2"></div>
 
     <div class="d-flex flex-wrap justify-content-center">
-        <div class="bg-main-light rounded-3 p-4 m-2" style="min-width: 10em;">
+        <div class="bg-main-light rounded-3 p-4 m-2" style="width: 45%;">
             <!-- Activities pie chart -->
-            <h5 class="text-center">ਖੇਡ ਵੰਡ</h5>
-            <canvas id="activityTypesPieChart"></canvas>
+            <h5 class="text-center">
+                <span class="eng-lang-text">Game Categories</span>
+                <span class="pa-lang-text">ਖੇਡ ਵੰਡ</span>
+            </h5>
+            <div id="activityTypesPieChart-container" class="d-flex justify-content-center align-items-center" style="height: 200px;">
+                <div class="spinner-border" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </div>
+            <canvas id="activityTypesPieChart" class="d-none"></canvas>
         </div>
 
-        <div class="bg-main-light rounded-3 p-4 m-2" style="min-width: 10em;">
+        <div class="bg-main-light rounded-3 p-4 m-2" style="width: 45%;">
             <!-- Activity categories pie chart -->
-            <h5 class="text-center">ਖੇਡ ਸ਼੍ਰੇਣੀ ਵੰਡ</h5>
-            <canvas id="activityCategoriesPieChart"></canvas>
+            <h5 class="text-center">
+                <span class="eng-lang-text">Game Categories</span>
+                <span class="pa-lang-text">ਖੇਡ ਸ਼੍ਰੇਣੀ ਵੰਡ</span>
+            </h5>
+            <div id="activityCategoriesPieChart-container" class="d-flex justify-content-center align-items-center" style="height: 200px;">
+                <div class="spinner-border" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </div>
+            <canvas id="activityCategoriesPieChart" class="d-none"></canvas>
         </div>
 
-        <div class="bg-main-light rounded-3 p-4 m-2" style="min-width: 55em;">
-            <!-- User bar chart -->
-            <h5 class="text-center">ਵਿਧਿਆਰਥੀ</h5>
-            <canvas id="userActivitiesBarChart"></canvas>
+        <!-- User bar chart -->
+        <div class="bg-main-light rounded-3 p-4 m-2" style="width: 90%;">
+            <h5 class="text-center">
+                <span class="eng-lang-text">Students</span>
+                <span class="pa-lang-text">ਵਿਧਿਆਰਥੀ</span>
+            </h5>
+            <div id="userActivitiesBarChart-container" class="d-flex justify-content-center align-items-center" style="height: 300px;">
+                <div class="spinner-border" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </div>
+            <canvas id="userActivitiesBarChart" class="d-none"></canvas>
         </div>
 
-        <div class="bg-main-light rounded-3 p-4 m-2" style="min-width: 55em;">
-            <!-- Points bar chart -->
-            <h5 class="text-center">ਸਕੋਰ</h5>
-            <canvas id="pointsBarChart"></canvas>
-        </div>
-    </div>
-
-    <!-- Usage stats -->
-    <div class="bg-main-light rounded-3 p-4 m-2" style="width: 100%;">
-        <h5 class="text-center">ਵਰਤੋਂ ਸੰਖੇਪ</h5>
-        <div style="height: 200px;">
-            <canvas id="usageStatsChart"></canvas>
+        <!-- Usage stats -->
+        <div class="bg-main-light rounded-3 p-4 m-2" style="width: 90%;">
+            <h5 class="text-center">
+                <span class="eng-lang-text">Usage Stats</span>
+                <span class="pa-lang-text">ਵਰਤੋਂ ਸੰਖੇਪ</span>
+            </h5>
+            <div id="usageStatsChart-container" class="d-flex justify-content-center align-items-center" style="height: 200px;">
+                <div class="spinner-border" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </div>
+            <canvas id="usageStatsChart" class="d-none"></canvas>
         </div>
     </div>
 
     <div class="d-flex flex-wrap justify-content-center">
         <!-- Painti akhar grid stats -->
-        <div class="bg-main-light rounded-3 p-4 m-2" style="min-width: 35em;">
-            <h5 class="text-center">ਅੱਖਰ ਅੰਕੜੇ</h5>
+        <div class="bg-main-light rounded-3 p-4 m-2" style="width: 45%;">
+            <h5 class="text-center">
+                <span class="eng-lang-text">Akhar Accuracy</span>
+                <span class="pa-lang-text">ਅੱਖਰ ਅੰਕੜੇ</span>
+            </h5>
             <table class="table table-striped">
                 {% for row in [["ੳ", "ਅ", "ੲ", "ਸ", "ਹ"], ["ਕ", "ਖ", "ਗ", "ਘ", "ਙ"], ["ਚ", "ਛ", "ਜ", "ਝ", "ਞ"], ["ਟ", "ਠ", "ਡ", "ਢ", "ਣ"], ["ਤ", "ਥ", "ਦ", "ਧ", "ਨ"], ["ਪ", "ਫ", "ਬ", "ਭ", "ਮ"], ["ਯ", "ਰ", "ਲ", "ਵ", "ੜ"], ["ਸ਼", "ਜ਼", "ਫ਼", "ਖ਼", "ਗ਼", "ਲ਼"]] %}
                 <div class="row">
@@ -86,7 +147,7 @@
                     <div class="col-xl p-1" style="max-width: 20%;">
                         <button id="akhar-{{ akhar }}" class="btn-press-blank w-100 border border-2 border-dark" style="background-color: rgba(0, 0, 0, 0);">
                             <h1>{{ akhar }}</h1>
-                            <p id="akhar-accuracy-text-{{ akhar }}">-%<br/>(0/0)</p>
+                            <p id="akhar-accuracy-text-{{ akhar }}">-%<br/>0/0</p>
                         </button>
                     </div>
                     {% endfor %}
@@ -96,8 +157,11 @@
         </div>
 
         <!-- Laga matra grid stats -->
-        <div class="bg-main-light rounded-3 p-4 m-2" style="min-width: 35em;">
-            <h5 class="text-center">ਲਗਾ ਮਾਤਰਾ ਅੰਕੜੇ</h5>
+        <div class="bg-main-light rounded-3 p-4 m-2" style="width: 45%;">
+            <h5 class="text-center">
+                <span class="eng-lang-text">Laga Matra Accuracy</span>
+                <span class="pa-lang-text">ਲਗਾ ਮਾਤਰਾ ਅੰਕੜੇ</span>
+            </h5>
             <table class="table table-striped">
                 {% for row in [["(ਅ)", "ਿ", "ੁ", "ੋ", "ੇ"], ["ਾ", "ੀ", "ੂ", "ੌ", "ੈ"]] %}
                 <div class="row">
@@ -115,9 +179,17 @@
         </div>
 
         <!-- Akhar timeline -->
-        <div class="bg-main-light rounded-3 p-4 m-2" style="min-width: 55em;">
-            <h5 class="text-center">ਅੱਖਰ ਸਕੋਰ ਟਾਈਮਲਾਇਨ</h5>
-            <canvas id="akharTimelineChart"></canvas>
+        <div class="bg-main-light rounded-3 p-4 m-2" style="width: 90%;">
+            <h5 class="text-center">
+                <span class="eng-lang-text">Akhar Score Timeline</span>
+                <span class="pa-lang-text">ਅੱਖਰ ਸਕੋਰ ਟਾਈਮਲਾਇਨ</span>
+            </h5>
+            <div id="akharTimelineChart-container" class="d-flex justify-content-center align-items-center" style="height: 300px;">
+                <div class="spinner-border" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </div>
+            <canvas id="akharTimelineChart" class="d-none"></canvas>
         </div>
     </div>
 </div>
@@ -131,11 +203,16 @@
     });
 
     function updateAnalytics() {
+        // Show loading spinner
+        showAllLoadingSpinners();
+        destroyAllCharts();
+
         // Get analytics data with AJAX
         $.ajax({
             url: '/get-analytics',
             type: 'GET',
             data: {
+                class_id: $('#class-filter-select').val(),
                 game: $('#game-filter-select').val(),
                 category: $('#category-filter-select').val(),
                 student_id: $('#student-filter-select').val(),

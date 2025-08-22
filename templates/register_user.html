@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+
+{% block title %}Register User{% endblock %}
+
+{% block content %}
+<div class="container p-4 bg-none rounded-3">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <h5 class="text-center mb-4">
+                <span class="eng-lang-text">Register User</span>
+                <span class="pa-lang-text">ਉਪਭੋਗਤਾ ਰਜਿਸਟਰ ਕਰੋ</span>
+            </h5>
+
+            <!-- Flash Messages -->
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                            {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
+            <!-- Registration Form -->
+            <div class="card bg-main-light border border-dark">
+                <div class="card-body p-4">
+                    <form method="POST" action="{{ url_for('register_user_post') }}">
+                        <div class="mb-3">
+                            <label for="user_id" class="form-label">
+                                <span class="eng-lang-text">User ID</span>
+                                <span class="pa-lang-text">ਉਪਭੋਗਤਾ ਆਈ.ਡੀ.</span>
+                            </label>
+                            <input type="text" class="form-control" id="user_id" name="user_id" required 
+                                   placeholder="Enter user ID">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="name_english" class="form-label">
+                                <span class="eng-lang-text">Name (English)</span>
+                                <span class="pa-lang-text">ਨਾਮ (ਅੰਗਰੇਜ਼ੀ)</span>
+                            </label>
+                            <input type="text" class="form-control" id="name_english" name="name_english" required 
+                                   placeholder="Enter name in English">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="name_punjabi" class="form-label">
+                                <span class="eng-lang-text">Name (Punjabi)</span>
+                                <span class="pa-lang-text">ਨਾਮ (ਪੰਜਾਬੀ)</span>
+                            </label>
+                            <input type="text" class="form-control" id="name_punjabi" name="name_punjabi" required 
+                                   placeholder="ਪੰਜਾਬੀ 'ਚ ਨਾਮ ਦਰਜ ਕਰੋ">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="class_id" class="form-label">
+                                <span class="eng-lang-text">Class ID</span>
+                                <span class="pa-lang-text">ਜਮਾਤ ਆਈ.ਡੀ.</span>
+                            </label>
+                            <select class="form-select" id="class_id" name="class_id" required>
+                                <option value="">Select class</option>
+                                <option value="class-1-fall-2025">Class 1 Fall 2025</option>
+                                <option value="class-2-fall-2025">Class 2 Fall 2025</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="user_type" class="form-label">
+                                <span class="eng-lang-text">User Type</span>
+                                <span class="pa-lang-text">ਉਪਭੋਗਤਾ ਵਰਗ</span>
+                            </label>
+                            <select class="form-select" id="user_type" name="user_type" required>
+                                <option value="">Select user type</option>
+                                <option value="student">Student</option>
+                                <option value="teacher">Teacher</option>
+                                <option value="admin">Administrator</option>
+                            </select>
+                        </div>
+
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                            <a href="{{ url_for('index') }}" class="btn btn-secondary me-md-2">
+                                <span class="eng-lang-text">Cancel</span>
+                                <span class="pa-lang-text">ਰੱਦ ਕਰੋ</span>
+                            </a>
+                            <button type="submit" class="btn btn-primary">
+                                <span class="eng-lang-text">Register</span>
+                                <span class="pa-lang-text">ਰਜਿਸਟਰ ਕਰੋ</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

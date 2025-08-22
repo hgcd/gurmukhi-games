@@ -3,6 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-Content-Type-Options" content="nosniff">
         <title>{% block title %}{% endblock %} - Gurmukhi Games</title>
         <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='images/logo.png') }}">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -51,28 +52,64 @@
     </head>
     <body>
         <nav class="navbar navbar-expand-lg bg-main-light main-text w-100">
-            <div class="container">
-                <a class="btn-press-blank text-decoration-none" href="{{ url_for('index') }}">
-                    <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Gurmukhi Games Logo" class="me-3" style="width: 40px; height: 40px;">
-                    <span class="navbar-brand text-blue-dark">ਗੁਰਮੁਖੀ ਖੇਡਾਂ</span>
-                </a>
-                {% if user_id %}
+            <div class="container d-flex justify-content-between align-items-center">
+                <!-- Logo and Navigation -->
                 <div class="d-flex align-items-center">
-                    {% if user_type == "teacher" %}
-                        <a href="{{ url_for('games') }}" class="btn-press-blank text-orange-dark text-decoration-none">
-                            <span class="me-3">ਖੇਡਾਂ <i class="bi bi-controller"></i></span>
+                    <a class="btn-press-blank text-decoration-none p-0 m-0" href="{{ url_for('index') }}">
+                        <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Gurmukhi Games Logo" class="me-3" style="width: 40px; height: 40px;">
+                    </a>
+                    {% if user_id and user_type in ["teacher", "admin"] %}
+                        <a href="{{ url_for('analytics') }}" class="btn-press-blank text-orange-dark text-decoration-none p-0 mx-1">
+                            <span class="m-0">
+                                <span class="eng-lang-text">Analytics</span>
+                                <span class="pa-lang-text">ਨਿਖੇੜਾ</span>
+                                <i class="bi bi-graph-up-arrow"></i>
+                            </span>
                         </a>
-                        <a href="{{ url_for('analytics') }}" class="btn-press-blank text-orange-dark text-decoration-none">
-                            <span class="me-3">ਨਿਖੇੜਾ <i class="bi bi-graph-up-arrow"></i></span>
+                        <a href="{{ url_for('register_user') }}" class="btn-press-blank text-orange-dark text-decoration-none p-0 mx-1">
+                            <span class="m-0">
+                                <span class="eng-lang-text">Register</span>
+                                <span class="pa-lang-text">ਰਜਿਸਟਰ</span>
+                                <i class="bi bi-person-plus"></i>
+                            </span>
+                        </a>
+                        <a href="{{ url_for('games_management') }}" class="btn-press-blank text-orange-dark text-decoration-none p-0 mx-1">
+                            <span class="m-0">
+                                <span class="eng-lang-text">Games</span>
+                                <span class="pa-lang-text">ਖੇਡਾਂ</span>
+                                <i class="bi bi-gear"></i>
+                            </span>
                         </a>
                     {% endif %}
-                    <span class="me-3">{{ user_name }}</span>
-                    {% if user_points %}
-                    <span class="text-blue m-2 p-2 h5">💎 {{ user_points }}</span>
+                    
+                    {% if user_id and user_class_id %}
+                        <a href="{{ url_for('class_list', class_id=user_class_id) }}" class="btn-press-blank text-orange-dark text-decoration-none p-0 mx-1">
+                            <span class="m-0">
+                                <span class="eng-lang-text">Class</span>
+                                <span class="pa-lang-text">ਜਮਾਤ</span>
+                                <i class="bi bi-people"></i>
+                            </span>
+                        </a>
                     {% endif %}
-                    <a href="{{ url_for('logout') }}" class="btn-press bg-red"><i class="bi bi-box-arrow-right"></i></a>
                 </div>
-                {% endif %}
+
+                <!-- User Info -->
+                <div>
+                    {% if user_id %}
+                        <span class="me-1">
+                            <span class="eng-lang-text">{{ user_name_english }}</span>
+                            <span class="pa-lang-text">{{ user_name_punjabi }}</span>
+                        </span>
+                        {% if user_points %}
+                        <span class="text-blue m-0 me-1 p-2 h5">💎 <span class="num-lang-text">{{ user_points }}</span></span>
+                        {% endif %}
+                        <a href="{{ url_for('logout') }}" class="btn-press bg-red"><i class="bi bi-box-arrow-left"></i></a>
+                    {% endif %}
+                    <span class="ms-1">
+                        <button id="set-en-btn" onclick="setLanguage('en');" class="btn-press bg-blue-dark">A</button>
+                        <button id="set-pa-btn" onclick="setLanguage('pa');" class="btn-press bg-blue-dark d-none">ਅ</button>
+                    </span>
+                </div>
             </div>
         </nav>
         <br/>
@@ -92,6 +129,32 @@
             </div>
         </div>
         <script>
+            function translateNumber(numString) {
+                enNums = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+                paNums = ['੦', '੧', '੨', '੩', '੪', '੫', '੬', '੭', '੮', '੯'];
+                
+                // Set to english if all numbers are in english and vice versa
+                if (numString.split('').every(num => enNums.includes(num))) {
+                    console.log("Converting English number: ", numString);
+                    return toGurmukhiNumber(numString);
+                } else if (numString.split('').every(num => paNums.includes(num))) {
+                    console.log("Converting Punjabi number: ", numString);
+                    return toEnglishNumber(numString);
+                }
+                return numString;
+            }
+            function toGurmukhiNumber(numString) {
+                const NUM_MAP = {0: "੦", 1: "੧", 2: "੨", 3: "੩", 4: "੪", 5: "੫", 6: "੬", 7: "੭", 8: "੮", 9: "੯"};
+                let gurmukhiNumString = numString.split('').map(num => NUM_MAP[num]).join('');
+                console.log("Converting to Gurmukhi number: ", gurmukhiNumString);
+                return gurmukhiNumString;
+            }
+            function toEnglishNumber(numString) {
+                const NUM_MAP = {"੦": "0", "੧": "1", "੨": "2", "੩": "3", "੪": "4", "੫": "5", "੬": "6", "੭": "7", "੮": "8", "੯": "9"};
+                let englishNumString = numString.split('').map(num => NUM_MAP[num]).join('');
+                console.log("Converting to English number: ", englishNumString);
+                return englishNumString;
+            }
             function showModal() {
                 $('#modal').modal('show');
             };
@@ -114,6 +177,36 @@
                     }
                 });
             }
+            function setLanguage(lang) {
+                // Change button display
+                if (lang === 'en') {
+                    $('#set-en-btn').addClass('d-none');
+                    $('#set-pa-btn').removeClass('d-none');
+                } else if (lang === 'pa') {
+                    $('#set-en-btn').removeClass('d-none');
+                    $('#set-pa-btn').addClass('d-none');
+                }
+
+                // Change language in the page
+                let enElements = document.getElementsByClassName('eng-lang-text');
+                let paElements = document.getElementsByClassName('pa-lang-text');
+                if (lang === 'en') {
+                    Array.from(enElements).forEach(element => element.classList.remove('d-none'));
+                    Array.from(paElements).forEach(element => element.classList.add('d-none'));
+                } else if (lang === 'pa') {
+                    Array.from(enElements).forEach(element => element.classList.add('d-none'));
+                    Array.from(paElements).forEach(element => element.classList.remove('d-none'));
+                }
+
+                // Set the number language text
+                let numElements = document.getElementsByClassName('num-lang-text');
+                Array.from(numElements).forEach(element => element.textContent = translateNumber(element.textContent));
+            }
+            
+            // On page load, set the language to the user's preferred language
+            $(document).ready(function() {
+                setLanguage("pa");
+            });
         </script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
         {% block scripts %}{% endblock %}

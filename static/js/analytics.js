@@ -1,3 +1,46 @@
+// Loading spinner functions
+function showAllLoadingSpinners() {
+    const chartIds = [
+        'activityTypesPieChart',
+        'activityCategoriesPieChart', 
+        'userActivitiesBarChart',
+        'usageStatsChart',
+        'akharTimelineChart'
+    ];
+    
+    chartIds.forEach(chartId => {
+        const container = document.getElementById(chartId + '-container');
+        const canvas = document.getElementById(chartId);
+        if (container) container.classList.remove('d-none');
+        if (canvas) canvas.classList.add('d-none');
+    });
+}
+
+function hideLoadingSpinner(chartId) {
+    const container = document.getElementById(chartId + '-container');
+    const canvas = document.getElementById(chartId);
+    if (container) container.classList.add('d-none');
+    if (canvas) canvas.classList.remove('d-none');
+}
+
+function destroyAllCharts() {
+    if (Chart.getChart("activityTypesPieChart")) {
+        Chart.getChart("activityTypesPieChart").destroy();
+    }
+    if (Chart.getChart("activityCategoriesPieChart")) {
+        Chart.getChart("activityCategoriesPieChart").destroy();
+    }
+    if (Chart.getChart("userActivitiesBarChart")) {
+        Chart.getChart("userActivitiesBarChart").destroy();
+    }
+    if (Chart.getChart("usageStatsChart")) {
+        Chart.getChart("usageStatsChart").destroy();
+    }
+    if (Chart.getChart("akharTimelineChart")) {
+        Chart.getChart("akharTimelineChart").destroy();
+    }
+}
+
 function updateFilterOptions(filterId, allValues, selectedValue) {
     $('#' + filterId).empty();
     $('#' + filterId).append('<option value="all">All</option>');
@@ -18,7 +61,7 @@ function updateAkharStats(akhar, totalCorrect, totalAttempts) {
     let accuracy = Math.round(totalCorrect / totalAttempts * 100, 2);
 
     // Set the text to the stats
-    akharAccuracy.innerHTML = accuracy + "%" + "<br/>" + "(" + totalCorrect + "/" + totalAttempts + ")";
+    akharAccuracy.innerHTML = accuracy + "%" + "<br/>" + totalCorrect + "/" + totalAttempts;
 
     // Set the color of the text
     const redRange = [256, 160];
@@ -44,7 +87,7 @@ function clearAkharStatsGrid() {
         }
 
         // Update score
-        document.getElementById("akhar-accuracy-text-" + akhar).innerHTML = "-<br/>(0/0)";
+        document.getElementById("akhar-accuracy-text-" + akhar).innerHTML = "-<br/>0/0";
 
         // Clear color
         akharBtn.style.backgroundColor = "rgba(0, 0, 0, 0)";
@@ -55,6 +98,27 @@ function clearAkharStatsGrid() {
 }
 
 function displayAnalytics(stats) {
+    // Hide error message
+    document.getElementById('error-message').classList.add('d-none');
+
+    if (stats.activity_stats == null || stats.akhar_stats == null || stats.usage_stats == null) {
+        console.log("Activity is null", stats.activity_stats == null);
+        console.log("Akhar is null", stats.akhar_stats == null);
+        console.log("Usage is null", stats.usage_stats == null);
+
+        // Show error message
+        document.getElementById('error-message').innerHTML = "No data found";
+        document.getElementById('error-message').classList.remove('d-none');
+
+        // Hide loading spinners
+        hideLoadingSpinner('activityTypesPieChart');
+        hideLoadingSpinner('activityCategoriesPieChart');
+        hideLoadingSpinner('userActivitiesBarChart');
+        hideLoadingSpinner('usageStatsChart');
+        hideLoadingSpinner('akharTimelineChart');
+        return;
+    }
+    
     // Update filter options
     updateFilterOptions('game-filter-select', stats.all_games, stats.selected_game);
     updateFilterOptions('category-filter-select', stats.all_categories, stats.selected_category);
@@ -70,14 +134,9 @@ function displayAnalytics(stats) {
         stats.activity_stats.activity_categories_counts
     );
 
-    // Update user activities pie chart
-    console.log(stats.activity_stats);
-    updateUserActivitiesBarChart(
-        stats.activity_stats.user_activities_counts
-    );
-
-    // Update points bar chart
-    updatePointsBarChart(
+    // Update user activities and points combined chart
+    updateUserActivitiesAndPointsChart(
+        stats.activity_stats.user_activities_counts,
         stats.activity_stats.user_points_stats
     );
 
@@ -90,7 +149,6 @@ function displayAnalytics(stats) {
     clearAkharStatsGrid();
 
     // Update from akhar stats
-    console.log(stats.akhar_stats.akhar_stats);
     for (let akhar of Object.keys(stats.akhar_stats.akhar_stats)) {
         updateAkharStats(
             akhar,
@@ -190,6 +248,9 @@ function updateAkharTimeline(akhar, timeline) {
             }
         }
     });
+    
+    // Hide loading spinner
+    hideLoadingSpinner('akharTimelineChart');
 }
 
 function updateActivityTypesPieChart(data) {
@@ -202,14 +263,27 @@ function updateActivityTypesPieChart(data) {
     let types = Object.keys(data);
     let counts = Object.values(data);
 
+    // Create arrays of objects for sorting
+    const dataForSorting = types.map((type, index) => ({
+        type: type,
+        count: counts[index]
+    }));
+
+    // Sort by count in descending order
+    dataForSorting.sort((a, b) => b.count - a.count);
+
+    // Extract sorted data
+    const sortedTypes = dataForSorting.map(item => item.type);
+    const sortedCounts = dataForSorting.map(item => item.count);
+
     // Create new chart
     const ctx = document.getElementById('activityTypesPieChart');
     new Chart(ctx, {
         type: 'pie',
         data: {
-            labels: types,
+            labels: sortedTypes,
             datasets: [{
-                data: counts,
+                data: sortedCounts,
                 backgroundColor: [
                     'rgba(255, 99, 132, 0.8)',
                     'rgba(54, 162, 235, 0.8)',
@@ -223,6 +297,9 @@ function updateActivityTypesPieChart(data) {
             }]
         }
     });
+    
+    // Hide loading spinner
+    hideLoadingSpinner('activityTypesPieChart');
 }
 
 function updateActivityCategoriesPieChart(data) {
@@ -235,14 +312,27 @@ function updateActivityCategoriesPieChart(data) {
     let categories = Object.keys(data);
     let counts = Object.values(data);
 
+    // Create arrays of objects for sorting
+    const dataForSorting = categories.map((category, index) => ({
+        category: category,
+        count: counts[index]
+    }));
+
+    // Sort by count in descending order
+    dataForSorting.sort((a, b) => b.count - a.count);
+
+    // Extract sorted data
+    const sortedCategories = dataForSorting.map(item => item.category);
+    const sortedCounts = dataForSorting.map(item => item.count);
+
     // Create new chart
     const ctx = document.getElementById('activityCategoriesPieChart');
     new Chart(ctx, {
         type: 'pie',
         data: {
-            labels: categories,
+            labels: sortedCategories,
             datasets: [{
-                data: counts,
+                data: sortedCounts,
                 backgroundColor: [
                     'rgba(255, 99, 132, 0.8)',
                     'rgba(54, 162, 235, 0.8)',
@@ -256,41 +346,140 @@ function updateActivityCategoriesPieChart(data) {
             }]
         }
     });
+    
+    // Hide loading spinner
+    hideLoadingSpinner('activityCategoriesPieChart');
 }
 
-function updateUserActivitiesBarChart(data) {
+function updateUserActivitiesAndPointsChart(activitiesData, pointsData) {
     // Destroy existing chart if it exists
     let existingChart = Chart.getChart("userActivitiesBarChart");
     if (existingChart) {
         existingChart.destroy();
     }
 
-    let users = Object.keys(data);
-    let counts = Object.values(data);
+    let users = Object.keys(activitiesData);
+    let activities = Object.values(activitiesData);
+    let points = Object.values(pointsData);
+
+    // Create arrays of objects for sorting
+    const dataForSorting = users.map((user, index) => ({
+        user: user,
+        activities: activities[index],
+        points: points[index]
+    }));
+
+    // Sort by activities in descending order
+    dataForSorting.sort((a, b) => b.activities - a.activities);
+
+    // Extract sorted data
+    const sortedUsers = dataForSorting.map(item => item.user);
+    const sortedActivities = dataForSorting.map(item => item.activities);
+    const sortedPoints = dataForSorting.map(item => item.points);
+
+    // Find the maximum values to normalize data
+    const maxActivities = Math.max(...sortedActivities);
+    const minActivities = Math.min(...sortedActivities);
+    const maxPoints = Math.max(...sortedPoints);
+    const minPoints = Math.min(...sortedPoints);
+
+    // Use original data without normalization
+    const normalizedActivities = sortedActivities;
+    const normalizedPoints = sortedPoints;
 
     // Create new chart
     const ctx = document.getElementById('userActivitiesBarChart');
     new Chart(ctx, {
         type: 'bar',
         data: {
-            labels: users,
+            labels: sortedUsers,
             datasets: [
                 {
-                    data: counts,
+                    label: 'Activities',
+                    data: normalizedActivities,
                     borderColor: "rgb(0, 0, 0, 1)",
                     borderWidth: 1,
-                    backgroundColor: "rgba(97, 166, 220, 0.8)",
+                    backgroundColor: "rgba(147, 112, 219, 0.8)", // Purple
+                    yAxisID: 'y'
+                },
+                {
+                    label: 'Score',
+                    data: normalizedPoints,
+                    borderColor: "rgb(0, 0, 0, 1)",
+                    borderWidth: 1,
+                    backgroundColor: "rgba(64, 224, 208, 0.8)", // Turquoise
+                    yAxisID: 'y1'
                 }
             ],
         },
         options: {
+            responsive: true,
+            interaction: {
+                mode: 'index',
+                intersect: false,
+            },
             plugins: {
                 legend: {
-                    display: false
+                    display: true
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            const label = context.dataset.label || '';
+                            const originalValue = context.dataset.label === 'Activities' 
+                                ? sortedActivities[context.dataIndex] 
+                                : sortedPoints[context.dataIndex];
+                            return label + ': ' + originalValue;
+                        }
+                    }
                 }
             },
+            scales: {
+                y: {
+                    type: 'linear',
+                    display: true,
+                    position: 'left',
+                    title: {
+                        display: true,
+                        text: 'Activities'
+                    },
+                    max: maxActivities,
+                    min: minPoints < 0 ? maxActivities * minPoints / maxPoints : 0,
+                    beginAtZero: true,
+                    ticks: {
+                        callback: function(value, index, values) {
+                            // Display original values
+                            return Math.round(value);
+                        }
+                    }
+                },
+                y1: {
+                    type: 'linear',
+                    display: true,
+                    position: 'right',
+                    title: {
+                        display: true,
+                        text: 'Score'
+                    },
+                    max: maxPoints,
+                    min: minPoints < 0 ? minPoints : 0,
+                    beginAtZero: true,
+                    grid: {
+                        drawOnChartArea: false,
+                    },
+                    ticks: {
+                        callback: function(value, index, values) {
+                            // Display original values
+                            return Math.round(value);
+                        }
+                    }
+                }
+            }
         }
     });
+    
+    // Hide loading spinner
+    hideLoadingSpinner('userActivitiesBarChart');
 }
 
 function updateUsageStatsChart(data) {
@@ -321,7 +510,8 @@ function updateUsageStatsChart(data) {
         },
         options: {
             responsive: true,
-            maintainAspectRatio: false,
+            maintainAspectRatio: true,
+            aspectRatio: 2,
             scales: {
                 x: {},
                 y: {
@@ -339,39 +529,7 @@ function updateUsageStatsChart(data) {
             }
         }
     });
-}
-
-function updatePointsBarChart(data) {
-    // Destroy existing chart if it exists
-    let existingChart = Chart.getChart("pointsBarChart");
-    if (existingChart) {
-        existingChart.destroy();
-    }
-
-    let users = Object.keys(data);
-    let points= Object.values(data);
-
-    // Create new chart
-    const ctx = document.getElementById('pointsBarChart');
-    new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: users,
-            datasets: [
-                {
-                    data: points,
-                    borderColor: "rgb(0, 0, 0, 1)",
-                    borderWidth: 1,
-                    backgroundColor: "rgba(97, 166, 220, 0.8)",
-                }
-            ],
-        },
-        options: {
-            plugins: {
-                legend: {
-                    display: false
-                }
-            },
-        }
-    });
+    
+    // Hide loading spinner
+    hideLoadingSpinner('usageStatsChart');
 }

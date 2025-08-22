@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+
+{% block title %}Vocabulary Matching{% endblock %}
+
+{% block content %}
+<div class="container p-4 bg-main-light rounded-3">
+    <!-- Start View -->
+    <div id="start-view" class="text-center bg-main-light rounded-3 p-4">
+        <h1 class="mb-4">Vocabulary Matching</h1>
+        <p class="text-muted">Match Punjabi words with their meanings</p>
+        
+        <!-- Topic Selection -->
+        <div class="mb-4">
+            <label for="topic-select" class="form-label">
+                <span class="eng-lang-text">Select Topic:</span>
+                <span class="pa-lang-text">ਵਿਸ਼ਾ ਚੁਣੋ:</span>
+            </label>
+            <select id="topic-select" class="form-select border border-dark border-2 rounded-3" style="max-width: 300px; margin: 0 auto;">
+                <option value="">Choose a topic...</option>
+            </select>
+        </div>
+        
+        <button class="btn-press bg-red-dark m-1" onclick="startRound()" id="start-button" disabled>
+            <h2>Start</h2>
+        </button>
+    </div>
+
+    <!-- Game View -->
+    <div id="game-view" class="d-none">
+        <!-- Header -->
+        <div class="row">
+            <div class="col-3">
+                <h4 id="progress-text"></h4>
+            </div>
+            <div class="col-6">
+                <!-- Progress bar -->
+                <div class="progress mt-2 bg-dark" role="progressbar" aria-label="" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+                    <div id="progress-bar" class="progress-bar bg-info" style="width: 0%"></div>
+                </div>
+            </div>
+            <div class="col-3 text-end">
+                <h4>💎 <span id="score" class="text-blue-dark">0</span></h4>
+            </div>
+        </div>
+
+        <br/><br/>
+
+        <!-- Question Section -->
+        <div id="question-section" class="text-center mb-4">
+            <!-- Image Question -->
+            <div id="image-question" class="d-none">
+                <img id="question-image" class="img-fluid rounded-3 mb-3" style="max-height: 200px;" alt="Question Image">
+                <h3 id="question-english" class="text-blue-dark"></h3>
+            </div>
+            
+            <!-- Punjabi Question -->
+            <div id="punjabi-question" class="d-none">
+                <h1 id="question-punjabi" class="text-blue-dark mb-3"></h1>
+            </div>
+        </div>
+
+        <!-- Options Section -->
+        <div id="options-section" class="text-center mb-4">
+            <div class="row justify-content-center">
+                <div class="col-md-12">
+                    <button id="option-1" class="btn-press bg-blue-dark m-1 p-0 rounded-3" style="width: 40%; max-width: 10em;">
+                        <img id="option-1-image" class="img-fluid rounded-3 mb-3 align-top">
+                        <h4 id="option-1-text" class="mb-3 py-2 px-4"></h4>
+                    </button>
+                    <button id="option-2" class="btn-press bg-blue-dark m-1 p-0 rounded-3" style="width: 40%; max-width: 10em;">
+                        <img id="option-2-image" class="img-fluid rounded-2 mb-3 align-top">
+                        <h4 id="option-2-text" class="mb-3 py-2 px-4"></h4>
+                    </button>
+                    <button id="option-3" class="btn-press bg-blue-dark m-1 p-0 rounded-3" style="width: 40%; max-width: 10em;">
+                        <img id="option-3-image" class="img-fluid rounded-2 mb-3 align-top">
+                        <h4 id="option-3-text" class="mb-3 py-2 px-4"></h4>
+                    </button>
+                    <button id="option-4" class="btn-press bg-blue-dark m-1 p-0 rounded-3" style="width: 40%; max-width: 10em;">
+                        <img id="option-4-image" class="img-fluid rounded-2 mb-3 align-top">
+                        <h4 id="option-4-text" class="mb-3 py-2 px-4"></h4>
+                    </button>
+                    <button id="option-5" class="btn-press bg-blue-dark m-1 p-0 rounded-3" style="width: 40%; max-width: 10em;">
+                        <img id="option-5-image" class="img-fluid rounded-2 mb-3 align-top">
+                        <h4 id="option-5-text" class="mb-3 py-2 px-4"></h4>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="text-center mt-4">
+        <button class="btn-press bg-orange-dark" onclick="nextRound()">
+            <h2>Next &rarr;</h2>
+        </button>
+    </div>
+
+    <!-- End View -->
+    <div id="end-view" class="text-center d-none">
+        <h1 class="mb-4">ਬਹੁਤ ਵਧੀਆ!</h1>
+        <br/>
+        <h2 class="text-blue">💎 +<span id="final-score">0</span></h2>
+        <br/>
+        <button class="btn-press bg-blue-dark" onclick="initGame()">
+            <h2>ਫੇਰ ਖੇਡਾਂ</h2>
+        </button>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+    <script src="{{ url_for('static', filename='js/gurmukhi_utils.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/animations.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/activities/vocab_image_matching.js') }}"></script>
+{% endblock %}

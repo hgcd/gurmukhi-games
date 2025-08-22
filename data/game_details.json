@@ -1,0 +1,110 @@
+[
+    {
+        "game_id": "akhar-recognition",
+        "name_english": "Akhar Recognition",
+        "name_punjabi": "ਅੱਖਰ ਪਛਾਣੋ",
+        "description_english": "Practice identifying Gurmukhi letters by sound",
+        "description_punjabi": "ਅੱਖਰ ਪਛਾਣੋ ਕਰੋ",
+        "color_class": "bg-orange-light",
+        "icon": "🎯",
+        "skills": ["recognition", "listening"],
+        "whitelist_class_ids": ["*"],
+        "blacklist_user_ids": []
+    },
+    {
+        "game_id": "akhar-line-order",
+        "name_english": "Akhar Line Order",
+        "name_punjabi": "ਅੱਖਰ ਤਰਤੀਬ",
+        "description_english": "Put the akhar in the correct order",
+        "description_punjabi": "ਅੱਖਰ ਤਰਤੀਬ ਕਰੋ",
+        "color_class": "bg-blue-light",
+        "icon": "🔤",
+        "skills": ["order"],
+        "whitelist_class_ids": ["*"],
+        "blacklist_user_ids": []
+    },
+    {
+        "game_id": "akhar-full-order",
+        "name_english": "Akhar Full Order",
+        "name_punjabi": "ਪੈਂਤੀ ਅੱਖਰ ਤਰਤੀਬ",
+        "description_english": "Fill the 7x5 grid with Gurmukhi letters in correct order",
+        "description_punjabi": "ਪੈਂਤੀ ਅੱਖਰ ਤਰਤੀਬ ਕਰੋ",
+        "color_class": "bg-green-light",
+        "icon": "📋",
+        "skills": ["order"],
+        "whitelist_class_ids": ["*"],
+        "blacklist_user_ids": []
+    },
+    {
+        "game_id": "audio-spelling",
+        "name_english": "Audio Spelling",
+        "name_punjabi": "ਆਡੀਓ ਸਪੇਲਿੰਗ",
+        "description_english": "Practice spelling Gurmukhi letters by listening to their audio pronunciation",
+        "description_punjabi": "ਆਡੀਓ ਸਪੇਲਿੰਗ ਕਰੋ",
+        "color_class": "bg-red-light",
+        "icon": "🎧",
+        "skills": ["spelling", "listening"],
+        "whitelist_class_ids": ["*"],
+        "blacklist_user_ids": []
+    },
+    {
+        "game_id": "color-memory",
+        "name_english": "Color Memory",
+        "name_punjabi": "ਕੋਲਰ ਮੈਮੋਰੀ",
+        "description_english": "Match colors with their Gurmukhi names",
+        "description_punjabi": "ਕੋਲਰ ਮੈਮੋਰੀ ਕਰੋ",
+        "color_class": "bg-orange-light",
+        "icon": "🎨",
+        "skills": ["memory", "vocabulary"],
+        "whitelist_class_ids": ["*"],
+        "blacklist_user_ids": []
+    },
+    {
+        "game_id": "akhar-elimination-grid",
+        "name_english": "Akhar Elimination Grid",
+        "name_punjabi": "ਅਕਾਰ ਇਲੀਮੀਨੇਸ਼ਨ ਗਰਿਡ",
+        "description_english": "Practice identifying and eliminating Gurmukhi letters",
+        "description_punjabi": "ਅਕਾਰ ਇਲੀਮੀਨੇਸ਼ਨ ਗਰਿਡ ਕਰੋ",
+        "color_class": "bg-green-light",
+        "icon": "🔍",
+        "skills": ["recognition", "listening"],
+        "whitelist_class_ids": ["*"],
+        "blacklist_user_ids": []
+    },
+    {
+        "game_id": "vocab-image-matching",
+        "name_english": "Vocab Image Matching",
+        "name_punjabi": "ਸ਼ਬਦ ਚਿੱਤਰ ਮੈਚਿੰਗ",
+        "description_english": "Match Punjabi words with their images",
+        "description_punjabi": "ਪੰਜਾਬੀ ਸ਼ਬਦਾਂ ਨੂੰ ਉਨ੍ਹਾਂ ਦੇ ਚਿੱਤਰਾਂ ਨਾਲ ਮਿਲਾਓ",
+        "color_class": "bg-red-light",
+        "icon": "🐘",
+        "skills": ["vocabulary"],
+        "whitelist_class_ids": ["*"],
+        "blacklist_user_ids": []
+    },
+    {
+        "game_id": "vocab-audio-matching",
+        "name_english": "Vocab Audio Matching",
+        "name_punjabi": "ਸ਼ਬਦ ਆਡੀਓ ਮੈਚਿੰਗ",
+        "description_english": "Match Punjabi words with their audio",
+        "description_punjabi": "ਪੰਜਾਬੀ ਸ਼ਬਦਾਂ ਨੂੰ ਉਨ੍ਹਾਂ ਦੇ ਆਡੀਓ ਨਾਲ ਮਿਲਾਓ",
+        "color_class": "bg-blue-light",
+        "icon": "📻",
+        "skills": ["vocabulary", "listening"],
+        "whitelist_class_ids": ["*"],
+        "blacklist_user_ids": []
+    }
+    {
+        "game_id": "missing-akhar-spelling",
+        "name_english": "Missing Akhar Spelling",
+        "name_punjabi": "ਮਿਸਿੰਗ ਅੱਖਰ ਸੈਲਿੰਗ",
+        "description_english": "Select the missing letters to complete the spelling",
+        "description_punjabi": "ਸਪੈਲਿੰਗ ਪੂਰੀ ਕਰਨ ਲਈ ਮਿਸਿੰਗ ਅੱਖਰਾਂ ਦੀ ਚੋਣ ਕਰੋ",
+        "color_class": "bg-blue-light",
+        "icon": "✏️",
+        "skills": ["spelling"],
+        "whitelist_class_ids": ["*"],
+        "blacklist_user_ids": []
+    }
+]
