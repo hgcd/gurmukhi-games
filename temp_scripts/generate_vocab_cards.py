@@ -30,10 +30,10 @@ def filter_valid_vocab(vocab_data):
             print(f"Processing item {i} of {len(vocab_data)}")
         
         # Check if all required fields exist and are not empty
-        if (item.get('image') and 
+        if ((item.get('image') or item.get('emoji')) and 
             item.get('english') and 
             item.get('punjabi_gurmukhi') and
-            item['image'].strip() and
+            (item['image'].strip() or item['emoji']) and
             item['english'].strip() and
             item['punjabi_gurmukhi'].strip()):
             valid_items.append(item)
@@ -44,17 +44,22 @@ def filter_valid_vocab(vocab_data):
 def create_card_html(item):
     """Create HTML for a single vocabulary card."""
     firstLetter = item['punjabi_gurmukhi'][0] + ('਼' if item['punjabi_gurmukhi'][1] == '਼' else '');
+    img_html = f"""
+    <img src="{item['image']}" alt="{item['english']}" style="width: 80%;border-radius: 10px;object-fit: contain;"/>
+    """ if item['image'] else f"""
+    <h1 style="font-size: 120px;">{item['emoji']}</h1>
+    """
     return f"""
     <div class="border border-dark border-3 rounded-3 p-2" style="width: 240px; height: 320px;">
         <div>
             <h1>{firstLetter}</h1>
         </div>
-        <div class="card-image bg-white my-2 d-flex justify-content-center">
-            <img src="{item['image']}" alt="{item['english']}" style="width: 80%;border-radius: 10px;object-fit: contain;"/>
+        <div class="card-image bg-white my-2 d-flex justify-content-center" style="min-height: 180px;">
+            {img_html}
         </div>
         <div>
             <h4 class="text-center">{item['punjabi_gurmukhi']}</h4>
-            <h5 class="text-center text-muted">{item['english']}</h5>
+            <h5 class="text-center text-muted d-none">{item['english']}</h5>
         </div>
     </div>
     """

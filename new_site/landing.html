@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-Content-Type-Options" content="nosniff">
+        <title>{% block title %}{% endblock %} - Gurmukhi Games</title>
+        <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='images/logo.png') }}">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Anek+Gurmukhi:wght@100..800&family=Braah+One&family=Langar&family=Noto+Sans+Gurmukhi:wght@100..900&family=Tiro+Gurmukhi:ital@0;1&display=swap" rel="stylesheet">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <style>
+            body {
+                background-color: #1f2243;
+                color: #fff;
+                font-family: "Josefin Sans", serif;
+            }
+            .gurmukhi {
+                font-family: "Braah One", serif;
+            }
+            .hero {
+                background: linear-gradient(135deg, #9bc7e5, #dff, #dfd, #97c997);
+                color: black
+            }
+            .dark {
+                background-color: #1f2243;
+            }
+            .info {
+                background: linear-gradient(180deg, #f1c19f, #eaa577);
+                color: #563535;
+            }
+            .text-info {
+                color: #eaa577;
+            }
+            .features {
+                padding: 80px 0;
+                background-color: #1f2243;
+            }
+            .cta {
+                padding: 60px 0;
+                text-align: center;
+                background: linear-gradient(135deg, #9bc7e5, #dff, #dfd, #97c997);
+                color: #000;
+            }
+            .footer {
+                padding: 60px 0;
+                text-align: center;
+                color: #fff;
+            }
+            .btn-custom {
+                background-color: #1f2243;
+                border: none;
+                color: white;
+                padding: 12px 24px;
+                font-size: 1.2rem;
+            }
+            .text-sup {
+                color: #36416e;
+            }
+            .text-sub {
+                color: #497dbc;
+            }
+        </style>
+    </head>
+    <body>
+        <!-- Hero Section -->
+        <section class="hero text-center" style="background-image: url('https://cdn.midjourney.com/04e8f20b-7e64-4b76-ad4d-82e4c78e2dc3/0_0.png'); background-size: cover; background-position: center; background-repeat: no-repeat; background-attachment: fixed;">
+            <div class="container py-4">
+                <div class="dark p-2 m-auto" style="width: 100px; height: 100px; border-radius: 50%;">
+                    <img src="https://images.squarespace-cdn.com/content/v1/68b0c2c043f0d515b4f31777/e08f1b9f-7743-4325-8a99-256bd9ee55b7/BhashaRoots+Logo.png?format=1500w" alt="Punjabi App Logo" class="img-fluid" style="width: 5em;">
+                </div>
+                <br/>
+                <div>
+                    <h3>The Most Advanced</h3>
+                    <h4 class="display-5 fw-bold text-sup">Punjabi Learning Platform</h4>
+                    <img src="/Users/HG/Desktop/hr_wheat_black.png" class="m-2" style="width: 300px;">
+                </div>
+                <br/>
+                <div style="min-width: 80%; max-width: 600px; margin: auto;">
+                    <div class="d-flex justify-content-center">
+                        <img src="/Users/HG/Desktop/ss_tablet_1.png" alt="Punjabi App Logo" class="img-fluid" style="width: 60%; height: auto;">
+                    </div>
+                </div>
+                <br/>
+
+                <a class="btn btn-lg px-4 btn-light m-3 gurmukhi" href="https://docs.google.com/forms/d/e/1FAIpQLSe73eW8_ZP3W29s5T23jGyqbFGI-a9NUWl9uj0MJAHO6B_5Tw/viewform?usp=sf_link">ਆਓ ਪੰਜਾਬੀ ਸਿੱਖੀਏ</a>
+            </div>
+        </section>
+
+        <section class="features text-center container py-4">
+            <h3 class="text-sub">ਪੰਜਾਬੀ ਮਾਂ ਬੋਲੀ ਨਾਲ ਜੁੜੋ</h3>
+            <h1>Sharing roots, Shaping futures</h1>
+            <img src="/Users/HG/Desktop/hr_wheat_white.png" class="m-2" style="width: 300px;">
+            <br/><br/>
+            <div class="row">
+                <div class="col-md-4 p-2">
+                    <div class="p-3 info rounded-3 h-100">
+                        <h1 class="text-dark">>90%</h1>
+                        <h4>of immigrant families lose their language by the third generation</h4>
+                    </div>
+                </div>
+                <div class="col-md-4 p-2">
+                    <div class="p-3 info rounded-3 h-100">
+                        <h1 class="text-dark">100%</h1>
+                        <h5>of learners who use Saanjh report feeling more confident in speaking their language</h5>
+                    </div>
+                </div>
+                <div class="col-md-4 p-2">
+                    <div class="p-3 info rounded-3 h-100">
+                        <h1 class="text-dark">100%</h1>
+                        <h5>of learners who use Saanjh report feeling more connected to their culture</h5>
+                    </div>
+                </div>
+            </div>
+            <br/>
+            <p>Saanjh is a learning platform that helps children learn South Asian heritage languages in a fun, modern, and engaging way. Through interactive digital games and hands-on learning kits, learners can build vocabulary, confidence, and real-world speaking skills. More than language, Saanjh nurtures identity and belonging which helps learners connect to their culture, family, and roots while preparing them for the future.</p>
+        </section>
+
+        <section class="hero p-4" style="background-image: url('https://cdn.midjourney.com/ce0fb558-1730-4ebe-ae81-0e4967217f30/0_0.png'); background-size: cover; background-position: center; background-repeat: no-repeat; background-attachment: fixed;">
+
+            <br/><br/>
+
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-4 my-2 p-1">
+                        <div class="p-3 text-center bg-white rounded shadow h-100">
+                            <h3>Rooted in Tradition</h3>
+                            <hr/>
+                            <ul class="text-start h5 text-sub">
+                                <li>Native Punjabi</li>
+                                <li>...</li>
+                                <li>...</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-4 my-2 p-1">
+                        <div class="p-3 text-center bg-white rounded shadow h-100">
+                            <h3>Adaptive & Engaging</h3>
+                            <hr/>
+                            <ul class="text-start h5 text-sub">
+                                <li>Customized daily lessons</li>
+                                <li>Interactive activities</li>
+                                <li>Track learning progess</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-4 my-2 p-1">
+                        <div class="p-3 text-center bg-white rounded shadow h-100">
+                            <h3>Comprehensive Curriculum</h3>
+                            <hr/>
+                            <ul class="text-start h5 text-sub">
+                                <li>Vocabulary & phrases</li>
+                                <li>Sentence composition</li>
+                                <li>Grammar lessons</li>
+                                <li>Stories & dialogues</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <br/><br/>
+        </section>
+
+        <!-- Features Section -->
+        <section class="features text-center py-4">
+            <div class="container">
+                <h1>AI-Powered Digital Learning</h1>
+                <img src="/Users/HG/Desktop/hr_wheat_white.png" class="m-2" style="width: 300px;">
+                <br/><br/>
+
+                <div class="row">
+                    <div class="col-md-4 my-2">
+                        <div class="p-3 hero rounded-4 h-100">
+                            <h1>5,000+</h1>
+                            <h5>Sentence based audio, translation, grammar exercises</h5>
+                        </div>
+                    </div>
+                    <div class="col-md-4 my-2">
+                        <div class="p-3 hero rounded-4 h-100">
+                            <h1>50+</h1>
+                            <h5>Vocabulary topics with exercises</h5>
+                        </div>
+                    </div>
+                    <div class="col-md-4 my-2">
+                        <div class="p-3 hero rounded-4 h-100">
+                            <h1>60+</h1>
+                            <h5>Interactive grammar lessons</h5>
+                        </div>
+                    </div>
+                </div>
+
+                <br/>
+
+                <div class="width: 100%; max-width: 600px; margin: auto;">
+                    <!-- Digital Learning part 1 -->
+                    <div class="row">
+                        <div class="col-md-4 my-2">
+                            <img src="/Users/HG/Desktop/ss_phone_1.png" alt="Punjabi App Logo" class="img-fluid" style="width: 100%;">
+                        </div>
+                        <div class="col-md-8 my-2 text-start">
+                            <h4 class="text-sub">ਬਣਾਵਟੀ ਸਿਆਣਪ ਦੁਨੀਆਂ ਤੇ ਕਬਜਾ ਕਰੂ</h4>
+                            <h2>AI Adaptive Learning</h2>
+                            <hr/>
+                            <p>Saanjh’s online learning website makes learning heritage languages interactive and fun. Kids can practice recognizing letters, spelling with audio, and building vocabulary through games that feel more like play than study. With daily lessons, progress tracking, and bite-sized activities, children stay motivated while building real confidence in their mother tongue.</p>
+                        </div>
+                    </div>
+
+                    <br/>
+
+                    <!-- Digital Learning part 2 -->
+                    <div class="row">
+                        <div class="col-md-8 my-2 text-end">
+                            <h4 class="text-sub">ਠੇਠ ਪੰਜਾਬੀ</h4>
+                            <h2>Native Punjabi</h2>
+                            <hr/>
+                            <p>What makes Saanjh special is its focus on authentic cultural learning designed for children. Every feature  from playful games to guided speaking practice — is crafted to help kids not just learn words, but connect them to traditions, stories, and family life. Learners can have individual accounts, while schools and community institutions can set up custom classroom solutions to bring language learning to entire groups. By blending technology with heritage, Saanjh ensures language learning feels joyful, personal, and lasting.</p>
+                        </div>
+                        <div class="col-md-4 my-2">
+                            <img src="/Users/HG/Desktop/ss_tablet_2.png" alt="Punjabi App Logo" class="img-fluid" style="width: 100%;">
+                        </div>
+                    </div>
+
+                    <br/>
+
+                    <!-- Digital Learning part 3 -->
+                    <div class="row">
+                        <div class="col-md-4 my-2">
+                            <img src="/Users/HG/Desktop/ss_phone_2.png" alt="Punjabi App Logo" class="img-fluid" style="width: 100%;">
+                        </div>
+                        <div class="col-md-8 my-2 text-start">
+                            <h4 class="text-sub">ਅੰਕੜੇ ਅਧਾਰਕ ਸਿਖਿਆ</h4>
+                            <h2>Data-backed Learning</h2>
+                            <hr/>
+                            <p>Our initial pilot demonstrated that Saanjh’s digital platform significantly boosted student engagement and learning outcomes, particularly among those who had previously struggled with the language through traditional methods. Saanjh’s initial pilot was in Punjabi, with aspirations to expand to similar South Asian languages.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="hero p-4">
+            <div class="container text-center">
+                <br/>
+                <h2>Data-backed Learning Results</h2>
+
+                <p>Our initial pilot demonstrated that Saanjh’s digital platform significantly boosted student engagement and learning outcomes, particularly among those who had previously struggled with the language through traditional methods. Saanjh’s initial pilot was in Punjabi, with aspirations to expand to similar South Asian languages.</p>
+
+                <p>Students showed strong mastery of foundational letters, with 20 of the 42 characters recognized at over 80% accuracy, and retention remained high across commonly used letters. Games that reinforced sequencing and repetition were especially popular, while even more advanced activities like audio spelling and letter recognition kept students challenged and motivated. </p>
+                    
+                <p>These results highlight how Saanjh makes language learning both accessible and effective, helping children build skills and confidence step by step.</p>
+
+                <br/>
+            </div>
+        </section>
+
+        <section class="features text-center py-4">
+            <div class="container">
+                <h1>Hands-on Learning</h1>
+                <img src="/Users/HG/Desktop/hr_wheat_white.png" class="m-2" style="width: 300px;">
+                <br/><br/>
+
+                <div class="width: 100%; max-width: 600px; margin: auto;">
+                    <!-- Product info part 1 -->
+                    <div class="row">
+                        <div class="col-md-4 my-2">
+                            <img src="https://images.squarespace-cdn.com/content/v1/68b0c2c043f0d515b4f31777/580a952b-616f-4e82-9f93-7881ea3d6c31/IMG_6402.jpg?format=750w" alt="Punjabi App Logo" class="img-fluid" style="width: 100%;">
+                        </div>
+                        <div class="col-md-8 my-2 text-start">
+                            <h4 class="text-sub">ਖੇਡਾਂ ਨਾਲ ਖੇਡੋ</h4>
+                            <h2>Hands-on Learning</h2>
+                            <hr/>
+                            <p>Jump into a world of language learning and exploration with our hands-on kits, designed to bring heritage languages to life. Each kit includes engaging, Montessori-inspired activities and cultural touchpoints that make learning both meaningful and fun. Our kits can be purchased individually for home use, or ordered in bulk for schools, businesses, and community organizations looking to integrate heritage language learning into their programs. At this time, the learning kits are available in Punjabi, with Hindi launching soon. We’re excited to expand into more South Asian languages in the near future — stay tuned!</p>
+                        </div>
+                    </div>
+
+                    <br/>
+
+                    <!-- Product info part 2 -->
+                    <div class="row">
+                        <div class="col-md-8 my-2 text-end">
+                            <h4 class="text-sub">ਆਪਣੇ ਪੈਸੇ ਦੇ ਦਓ</h4>
+                            <h2>Battle-tested & effective</h2>
+                            <hr/>
+                            <p>The pilot program with preschoolers (ages 5 and under) demonstrated measurable gains in early Punjabi language proficiency through Saanjh’s physical learning kits. In their very first year of formal testing, students achieved a class average of 77% on the final exam, with five students scoring above 95%. These results are especially significant given the challenges of building early literacy in heritage languages outside immersion environments, showing that young learners can successfully adopt foundational skills such as letter recognition, vocabulary, and sounds through consistent, engaging practice.</p>
+                        </div>
+                        <div class="col-md-4 my-2">
+                            <img src="https://images.squarespace-cdn.com/content/v1/68b0c2c043f0d515b4f31777/6eff04e7-14cd-41a4-8a5c-c6a354cd841b/Screenshot+2025-08-02+at+5.57.48%E2%80%AFPM.png?format=1500w" alt="Punjabi App Logo" class="img-fluid" style="width: 100%;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="hero text-center p-4" style="background-image: url('https://cdn.midjourney.com/d76903ae-3f88-43f7-8719-379b69063472/0_0.png'); background-size: cover; background-position: center; background-repeat: no-repeat; background-attachment: fixed;">
+            <div class="container">
+                <br/>
+                <h2>Built by Experienced Educators</h2>
+                <img src="/Users/HG/Desktop/hr_wheat_black.png" class="m-2" style="width: 300px;">
+                <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+                <br/>
+            </div>
+        </section>
+        
+        <!-- Call to Action Section -->
+        <section id="cta" class="footer">
+            <h5 class="text-sub">Sign up to be notified when Saanjh is released.</h5>
+            <a class="btn btn-lg px-4 btn-primary mt-3" href="https://docs.google.com/forms/d/e/1FAIpQLSe73eW8_ZP3W29s5T23jGyqbFGI-a9NUWl9uj0MJAHO6B_5Tw/viewform?usp=sf_link">Sign up</a>
+            <br/><br/><br/><br/><hr/><br/>
+
+            <div class="container p-4">
+                <h5 class="text-light">contactus@saanjh.com</h5>
+                <br/>
+                <p class="text-center text-light">© 2025 Saanjh</p>
+            </div>
+        </section>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    </body>
+</html>

@@ -53,9 +53,6 @@ def get_users_dict():
         for user in users
     }
 
-global USERS
-USERS = get_users_dict()
-
 def login_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
@@ -80,6 +77,7 @@ def login():
             session['user_class_id'] = USERS[user_id]['class_id']
             session['user_type'] = USERS[user_id]['type']
             session['points'] = USERS[user_id]['points']
+            print("Points: ", session['points'])
             return redirect(url_for('index'))
         else:
             return render_template('login.html', error='Invalid User ID')
@@ -331,6 +329,10 @@ def save_game_settings():
 @app.route('/class-list/<class_id>')
 @login_required
 def class_list(class_id):
+
+    # Refresh users
+    USERS = get_users_dict()
+
     # Check if user has access to this class
     user_class_id = session.get('user_class_id')
     user_type = session.get('user_type')
@@ -414,11 +416,13 @@ def register_activity():
 
 def update_user_points(user_id):
     # Get all user points
-    all_user_points = db.activity_records.find({"user_id": user_id}, {"points": 1})
+    all_user_points = db.activity_records.find({"user_id": user_id, "class_id": session.get('user_class_id', None)}, {"points": 1})
     total_points = sum([
         item['points'] for item in all_user_points
         if item['points'] is not None
     ])
+
+    print("Updating user points for ", user_id, " to ", total_points)
 
     # Make 0 the lowest possible points
     if total_points < 0:
