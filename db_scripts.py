@@ -103,7 +103,7 @@ def set_activity_class_id():
 
 def upload_vocab_terms():
     # TODO - will need a। eperate one just to update for changes
-    with open("learn_data/vocabulary_terms_v0.json", "r") as f:
+    with open("data/learn_data/vocabulary_terms_v0.json", "r") as f:
         vocab_terms = json.load(f)
     
     if "vocabulary_terms" not in db.list_collection_names():
@@ -113,4 +113,4 @@ def upload_vocab_terms():
     
     print("Vocabulary terms uploaded:", len(vocab_terms))
 
-add_game_details()
+upload_vocab_terms()

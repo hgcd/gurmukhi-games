@@ -140,7 +140,7 @@ function showImageQuestion() {
     punjabiQuestion.classList.add('d-none');
     
     questionImage.src = currentQuestion.image;
-    questionImage.alt = currentQuestion.english;
+    questionImage.style.backgroundColor = currentQuestion.color;
     questionEnglish.textContent = currentQuestion.english;
     
     correctAnswer = currentQuestion.punjabi_gurmukhi;
@@ -211,7 +211,7 @@ function updateOptionsDisplay(isImageOptions = false) {
                 if (vocabItem) {
                     // Update image
                     optionImage.src = vocabItem.image;
-                    optionImage.alt = vocabItem.english;
+                    optionImage.style.backgroundColor = vocabItem.color;
                     optionImage.style.display = 'block';
                     
                     // Update text
